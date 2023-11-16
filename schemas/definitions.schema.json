@@ -1,0 +1,53 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://github.com/carmada-dev/devcenter-starter/schemas/definitions.schema.json",
+	"$defs": {
+		"principal": {
+			"type": "object",
+			"properties": {
+				"principalId":{
+					"type": "string",
+					"pattern":"^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
+				},
+				"principalType": {
+					"type": "string",
+					"enum": [
+						"User",
+						"Group"
+					]
+				}
+			},
+			"required": [
+				"principalId",
+				"principalType"
+			],
+			"additionalProperties": false
+		},
+		"location": {
+			"type": "string",
+			"enum": [
+				"Australia East",
+				"Canada Central",
+				"West Europe",
+				"Japan East",
+				"UK South",
+				"East US",
+				"East US 2",
+				"South Central US",
+				"West US 3",
+				"Central India",
+				"East Asia",
+				"North Europe",
+				"Korea Central"
+			]
+		},
+		"addressPrefix": {
+			"type": "string",
+			"pattern": "((^|\\.)((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]?\\d))){4}\\/(?:\\d|[12]\\d|3[01])$"
+		},
+		"resourceId": {
+			"type": "string",
+			"pattern": "^\\/subscriptions\\/[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}\\/resourceGroups\\/.*\\/providers\\/.*"
+		}
+	}
+}

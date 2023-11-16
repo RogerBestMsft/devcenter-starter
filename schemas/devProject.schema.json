@@ -1,0 +1,141 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://github.com/carmada-dev/devcenter-starter/schemas/devProject.schema.json",
+	"title": "DevProject",
+	"description": "DevProject configuration",
+	"type": "object",
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the DevProject"
+		},
+		"devCenterId": {
+			"$ref": "./definitions.schema.json#/$defs/resourceId",
+			"description": "The related DevCenter resource ID"
+		},
+		"networks": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"oneOf": [
+					{
+						"type": "object",
+						"properties": {
+							"addressPrefix": {
+								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+								"description": "The IP range of the network"
+							},
+							"location": {
+								"$ref": "./definitions.schema.json#/$defs/location",
+								"description": "The location of the network"
+							}
+						},
+						"required": [
+							"addressPrefix"
+						],
+						"additionalProperties": false
+					},
+					{
+						"type": "object",
+						"properties": {
+							"addressPrefix": {
+								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+								"description": "The IP range of the network"
+							},
+							"hubName": {
+								"type": "string",
+								"description": "The related hub vnet name from the DevCenter resource group"
+							},
+							"location": {
+								"$ref": "./definitions.schema.json#/$defs/location",
+								"description": "The location of the network"
+							}
+						},
+						"required": [
+							"addressPrefix",
+							"hubName"
+						],
+						"additionalProperties": false
+					},
+					{
+						"type": "object",
+						"properties": {
+							"addressPrefix": {
+								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+								"description": "The IP range of the network"
+							},
+							"hubId": {
+								"$ref": "./definitions.schema.json#/$defs/resourceId",
+								"description": "The related hub vnet resource ID"
+							},
+							"location": {
+								"$ref": "./definitions.schema.json#/$defs/location",
+								"description": "The location of the network"
+							}
+						},
+						"required": [
+							"addressPrefix",
+							"hubId"
+						],
+						"additionalProperties": false
+					}
+				]
+
+			},
+			"minItems": 1
+		},
+		"devBoxPools": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Name of the DevBox pool"
+					},
+					"definition": {
+						"type": "string",
+						"description": "Name of the DevBox definition to use"
+					},
+					"networks": {
+						"type": "array",
+						"description": "List of project networks (index) to reference",
+						"items": {
+							"type": "integer",
+							"minimum": 0
+						}
+					},
+					"administrator": {
+						"type": "boolean",
+						"description": "Indicate if users will become local admin on DevBoxes in this pool"
+					}
+				},
+				"required": [
+					"name",
+					"definition"
+				]
+			}
+		},
+		"admins": {
+			"type": "array",
+			"description": "List of user or group principals assigned the DevCenter Project Admin role",
+			"items": {
+				"$ref": "./definitions.schema.json#/$defs/principal"
+			}
+		},
+		"users": {
+			"type": "array",
+			"description": "List of user or group principals assigned the DevCenter DevBox User and Azure Deployment Environment User role",
+			"items": {
+				"$ref": "./definitions.schema.json#/$defs/principal"
+			}
+		}
+	},
+	"required": [
+
+	],
+	"additionalProperties": false
+}

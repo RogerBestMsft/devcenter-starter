@@ -1,0 +1,77 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://github.com/carmada-dev/devcenter-starter/schemas/devCenter.schema.json",
+	"title": "DevCenter",
+	"description": "DevCenter configuration",
+	"type": "object",
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the DevCenter"
+		},
+		"location": {
+			"$ref": "./definitions.schema.json#/$defs/location",
+			"description": "Location of the DevCenter"
+		},
+		"networks": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"addressPrefix": {
+						"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+						"description": "The IP range of the network"
+					},
+					"location": {
+						"$ref": "./definitions.schema.json#/$defs/location",
+						"description": "The location of the network"
+					}
+				},
+				"required": [
+					"addressPrefix"
+				]
+			},
+			"minItems": 1
+		},
+		"devBoxDefinitions": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The name of the DevBox definition"
+					},
+					"image": {
+						"type": "string",
+						"description": "The image of the DevBox definition"
+					},
+					"sku": {
+						"type": "string",
+						"description": "The SKU of the DevBox definition"
+					},
+					"storage": {
+						"type": "string",
+						"description": "The storage of the DevBox definition"
+					}
+				},
+				"required": [
+					"name",
+					"image",
+					"sku",
+					"storage"
+				]
+			}
+		}
+	},
+	"required": [
+		"name",
+		"location",
+		"networks",
+		"devBoxDefinitions"
+	],
+	"additionalProperties": false
+}

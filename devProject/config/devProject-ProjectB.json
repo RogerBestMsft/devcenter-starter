@@ -1,0 +1,36 @@
+{
+	"$schema": "../../schemas/devProject.schema.json",
+	"name": "ProjectB",
+	"devCenterId": "/subscriptions/bffe1654-7f9a-4630-b7b9-d24759a76222/resourceGroups/DevCenter-ContosoRnD/providers/Microsoft.DevCenter/devcenters/ContosoRnD",
+	"networks" : [
+		{
+			"addressPrefix": "10.0.1.0/26",
+			"hubName": "HUB-WESTEUROPE-00"
+			
+		},
+		{
+			"addressPrefix": "10.0.1.64/26",
+			"hubName": "HUB-WESTEUROPE-01"
+		}
+	],
+	"devBoxPools" : [
+		{
+			"name": "VS2022EntBox",
+			"definition": "VS2022EntBox",
+			"networks": [ 0, 1 ],
+			"administrator": false
+		}
+	],
+	"admins" : [
+		{
+			"principalId" : "94bd056c-2134-47a9-845f-a596e960f39b",
+			"principalType": "User"
+		}
+	],
+	"users" : [
+		{
+			"principalId" : "22adab23-8a6b-4346-8c97-858e8ed5bc7f",
+			"principalType": "User"
+		}
+	]
+}

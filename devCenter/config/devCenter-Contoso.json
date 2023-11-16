@@ -1,0 +1,25 @@
+{
+	"$schema": "../../schemas/devCenter.schema.json",
+	"name": "ContosoRnDg",
+	"location": "West Europe",
+	"networks": [
+		{
+			"addressPrefix": "10.0.250.0/24"
+		},
+		{
+			"addressPrefix": "10.0.251.0/24"
+		},
+		{
+			"addressPrefix": "10.0.252.0/24",
+			"location": "East US 2"			
+		}
+	],
+	"devBoxDefinitions": [
+		{
+			"name": "VS2022EntBox",
+			"image": "microsoftvisualstudio_visualstudioplustools_vs-2022-ent-general-win11-m365-gen2",
+			"sku": "general_i_8c32gb1024ssd_v2",
+			"storage": "ssd_1024gb"
+		}
+	]
+}
