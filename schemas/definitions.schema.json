@@ -48,6 +48,19 @@
 		"resourceId": {
 			"type": "string",
 			"pattern": "^\\/subscriptions\\/[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}\\/resourceGroups\\/.*\\/providers\\/.*"
+		},
+		"tags": {
+			"type": "object",
+			"patternProperties": {
+				"^.*$": {
+					"anyOf": [
+						{
+							"type": "string"
+						}
+					]
+				}
+			},
+			"additionalProperties": false
 		}
 	}
 }

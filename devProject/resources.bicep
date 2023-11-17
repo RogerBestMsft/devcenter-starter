@@ -3,16 +3,16 @@ targetScope = 'resourceGroup'
 
 param config object
 
-module resolveDevProjectRegions '_resolveDevProjectRegions.bicep' = {
-  name: '${take(deployment().name, 36)}-${uniqueString('resolveDevProjectRegions', string(config))}'
+module getDevProjectRegions 'getDevProjectRegions.bicep' = {
+  name: '${take(deployment().name, 36)}-${uniqueString('getDevProjectRegions', string(config))}'
   scope: subscription()
   params: {
     config: config
   }
 }
 
-module resolveDevProjectNetworks '_resolveDevProjectNetworks.bicep' = {
-  name: '${take(deployment().name, 36)}-${uniqueString('resolveDevProjectNetworks', string(config))}'
+module getDevProjectNetworks 'getDevProjectNetworks.bicep' = {
+  name: '${take(deployment().name, 36)}-${uniqueString('getDevProjectNetworks', string(config))}'
   scope: subscription()
   params: {
     config: config
@@ -24,8 +24,8 @@ module resourceRegions 'resourceRegions.bicep' = {
   scope: resourceGroup()
   params: {
     config: config
-    locations: resolveDevProjectRegions.outputs.regions
-    networks: resolveDevProjectNetworks.outputs.networks
+    locations: getDevProjectRegions.outputs.regions
+    networks: getDevProjectNetworks.outputs.networks
   }
 }
 
@@ -34,7 +34,7 @@ module devProject 'devProject.bicep' = {
   scope: resourceGroup()
   params: {
     config: config
-    location: resolveDevProjectRegions.outputs.primary
+    location: getDevProjectRegions.outputs.primary
   }
 }
 

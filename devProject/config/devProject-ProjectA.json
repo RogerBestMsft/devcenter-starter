@@ -1,7 +1,6 @@
 {
 	"$schema": "../../schemas/devProject.schema.json",
 	"name": "ProjectA",
-	"location": "West Europe",
 	"devCenterId": "/subscriptions/bffe1654-7f9a-4630-b7b9-d24759a76222/resourceGroups/DevCenter-ContosoRnD/providers/Microsoft.DevCenter/devcenters/ContosoRnD",
 	"networks" : [
 		{
@@ -11,13 +10,13 @@
 		{
 			"addressPrefix": "10.0.0.64/26",
 			"hubName": "HUB-WESTEUROPE-00"
-			
 		}
 	],
 	"devBoxPools" : [
 		{
 			"name": "VS2022EntBox",
 			"definition": "VS2022EntBox",
+			"networks": [],
 			"administrator": false
 		}
 	],

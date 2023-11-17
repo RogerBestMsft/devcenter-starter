@@ -8,7 +8,7 @@ param networkIndex int
 var locationMap = loadJsonContent('data/locations.json')
 var networkName = '${config.name}-NET-${tools.getLocationDisplayName(locationMap, network.location, true)}-${format('{0:00}', networkIndex)}'
 
-module resolveNetworkResource '_resolveNetworkResource.bicep' = if (contains(network, 'hubId')) {
+module getNetworkResource 'getNetworkResource.bicep' = if (contains(network, 'hubId')) {
   name: '${take(deployment().name, 36)}_vninfo_${uniqueString(deployment().name)}'
   scope: resourceGroup(split(network.hubId, '/')[2], split(network.hubId, '/')[4])
   params: {
@@ -16,7 +16,7 @@ module resolveNetworkResource '_resolveNetworkResource.bicep' = if (contains(net
   }
 }
 
-module resolveFirewallResource '_resolveFirewallResource.bicep' = if (contains(network, 'hubId')) {
+module getFirewallResource 'getFirewallResource.bicep' = if (contains(network, 'hubId')) {
   name: '${take(deployment().name, 36)}_fwinfo_${uniqueString(deployment().name)}'
   scope: resourceGroup(split(network.hubId, '/')[2], split(network.hubId, '/')[4])
   params: {
@@ -54,8 +54,8 @@ module networkIpGroup 'networkIpGroup.bicep' = if (contains(network, 'hubId')) {
   name: '${take(deployment().name, 36)}-net-${network.location}${format('{0:00}', networkIndex)}'
   scope: resourceGroup(split(network.hubId, '/')[2], split(network.hubId, '/')[4])
   params: {
-    name: '${last(split(network.hubId, '/'))}-IPG-${networkName}'
-    location: resolveNetworkResource.outputs.networkLocation
+    name: '${tools.getResourceName(network.hubId)}-DPIPG-${networkName}'
+    location: getNetworkResource.outputs.networkLocation
     addresses: [ network.addressPrefix ]
   }
 }
@@ -66,7 +66,7 @@ module networkPeerings 'networkPeerings.bicep' = if (contains(network, 'hubId'))
   params: {
     HubPeeringPrefix: 'devCenter'
     HubNetworkId: network.hubId
-    HubGatewayIP: resolveFirewallResource.outputs.firewallProperties.ipConfigurations[0].properties.privateIPAddress
+    HubGatewayIP: getFirewallResource.outputs.firewallProperties.ipConfigurations[0].properties.privateIPAddress
     SpokePeeringPrefix: 'devProject'
     SpokeNetworkIds: [ virtualNetwork.id ]
   }
@@ -74,6 +74,7 @@ module networkPeerings 'networkPeerings.bicep' = if (contains(network, 'hubId'))
 
 module networkConnection 'networkConnection.bicep' = {
   name: '${take(deployment().name, 36)}-con-${network.location}${format('{0:00}', networkIndex)}'
+  scope: resourceGroup()
   dependsOn: [
     networkPeerings
   ]

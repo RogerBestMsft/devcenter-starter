@@ -20,21 +20,52 @@
 			"type": "array",
 			"items": {
 				"type": "object",
-				"properties": {
-					"addressPrefix": {
-						"$ref": "./definitions.schema.json#/$defs/addressPrefix",
-						"description": "The IP range of the network"
+				"anyOf": [
+					{
+						"type": "object",
+						"properties": {
+							"addressPrefix": {
+								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+								"description": "The IP range of the network"
+							},
+							"location": {
+								"$ref": "./definitions.schema.json#/$defs/location",
+								"description": "The location of the network"
+							},
+							"type": {
+								"type": "string",
+								"constant": "Hub"
+							}
+						},
+						"required": [
+							"addressPrefix",
+							"type"
+						]
 					},
-					"location": {
-						"$ref": "./definitions.schema.json#/$defs/location",
-						"description": "The location of the network"
+					{
+						"type": "object",
+						"properties": {
+							"addressPrefix": {
+								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+								"description": "The IP range of the network"
+							},
+							"location": {
+								"$ref": "./definitions.schema.json#/$defs/location",
+								"description": "The location of the network"
+							},
+							"type": {
+								"type": "string",
+								"constant": "Net"
+							}
+						},
+						"required": [
+							"addressPrefix",
+							"type"
+						]
 					}
-				},
-				"required": [
-					"addressPrefix"
+
 				]
-			},
-			"minItems": 1
+			}
 		},
 		"devBoxDefinitions": {
 			"type": "array",
@@ -64,6 +95,64 @@
 					"sku",
 					"storage"
 				]
+			}
+		},
+		"catalogs": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Name of the catalog"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"GitHub",
+							"AzureDevOps"
+						]
+					},
+					"uri": {
+						"type": "string",
+						"description": "GitHub repository URL"
+					},
+					"branch": {
+						"type": "string",
+						"description": "Name of the repository branch"
+					},
+					"path": {
+						"type": "string",
+						"description": "Root path of the environment definitions"
+					},
+					"secretRef": {
+						"type": "string",
+						"description": "Name of the secret defined in secrets.json"
+					}
+				},
+				"required": [
+					"name",
+					"type",
+					"uri",
+					"secretRef"
+				],
+				"additionalProperties": false
+			}
+		},
+		"environmentTypes": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Name of the environment type"
+					},
+					"tags": {
+						"$ref": "./definitions.schema.json#/$defs/tags",
+						"description": "Tags applied to the environment type"
+					}
+				}
 			}
 		}
 	},

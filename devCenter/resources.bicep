@@ -4,6 +4,9 @@ targetScope = 'resourceGroup'
 param config object
 param windows365PrincipalId string
 
+@secure()
+param secrets object = {}
+
 var locations = union(
   [replace(toLower(config.location), ' ', '')],
   map((contains(config, 'networks') ? config.networks : []), network => toLower(replace(contains(network, 'location') ? network.location : config.location, ' ', ''))))
@@ -59,8 +62,47 @@ module gallery 'gallery.bicep' = {
   }
 }
 
+module keyVault 'keyVault.bicep' = {
+  name: '${take(deployment().name, 36)}_keyVault'
+  scope: resourceGroup()
+  params: {
+    config: config
+    secrets: secrets
+    devCenterName: devCenter.name
+    devCenterPrincipalId: devCenter.identity.principalId
+  }
+}
+
+module catalogs 'catalogs.bicep' = {
+  name: '${take(deployment().name, 36)}_catalogs'
+  scope: resourceGroup()
+  params: {
+    config: config
+    devCenterName: devCenter.name
+    secretRefs: keyVault.outputs.secretRefs
+  }
+}
+
+module devBoxDefinitions 'devBoxDefinitions.bicep' = {
+  name: '${take(deployment().name, 36)}_devBoxDefinitions'
+  scope: resourceGroup()
+  params: {
+    config: config
+    devCenterName: devCenter.name
+  }
+}
+
+module environmentTypes 'environmentTypes.bicep' = {
+  name: '${take(deployment().name, 36)}_environmentTypes'
+  scope: resourceGroup()
+  params: {
+    config: config
+    devCenterName: devCenter.name
+  }
+}
+
 module region 'resourceRegion.bicep' = [for location in locations: {
-  name: '${take(deployment().name, 36)}_region_${location}'
+  name: '${take(deployment().name, 36)}-region-${location}'
   scope: resourceGroup()
   params: {
     config: config
@@ -68,24 +110,9 @@ module region 'resourceRegion.bicep' = [for location in locations: {
   }
 }]
 
-module devBox 'devBox.bicep' = {
-  name: '${take(deployment().name, 36)}_devBox'
-  scope: resourceGroup()
-  params: {
-    config: config
-    devCenterName: devCenter.name
-  }
-}
 
-module keyVault 'keyVault.bicep' = {
-  name: '${take(deployment().name, 36)}_keyVault'
-  scope: resourceGroup()
-  params: {
-    config: config
-    devCenterName: devCenter.name
-    devCenterPrincipalId: devCenter.identity.principalId
-  }
-}
+
+
 
 output workspaceId string = workspace.id
 output devCenterId string = devCenter.id

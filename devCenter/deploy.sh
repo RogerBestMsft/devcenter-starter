@@ -48,6 +48,7 @@ if $FORCE; then
 fi
 
 echo "Generating data files ..."; mkdir -p $SCRIPT_DIR/data
+[ -f $SCRIPT_DIR/data/secrets.json ] || (echo "{}" > $SCRIPT_DIR/data/secrets.json)
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > $SCRIPT_DIR/data/locations.json
 echo "... done"
 
@@ -74,6 +75,7 @@ else
 		--only-show-errors \
 		--parameters \
 			config=@$CONFIGFILE \
+			secrets=@$SCRIPT_DIR/data/secrets.json \
 			windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
 		--query properties.outputs > ${CONFIGFILE%.*}.output.json
 

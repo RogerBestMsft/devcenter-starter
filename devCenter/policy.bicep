@@ -1,8 +1,11 @@
-// import * as tools from 'tools.bicep'
+import * as tools from 'tools.bicep'
 targetScope = 'resourceGroup'
 
 param config object
 param location string = config.location
+
+var locationMap = loadJsonContent('./data/locations.json')
+var policyName = 'POLICY-${tools.getLocationDisplayName(locationMap, location, true)}'
 
 var devCenterRuleCollections = [
   {
@@ -222,7 +225,7 @@ var ruleCollectionGroups = [
 ]
 
 resource firewallPolicy 'Microsoft.Network/firewallPolicies@2022-07-01' = {
-  name: 'POLICY-${toUpper(replace(location, ' ', ''))}'
+  name: policyName
   location: location
   properties: {
     threatIntelMode: 'Alert'

@@ -1,1 +1,2 @@
 **/*.output.json
+**/data/secrets.json

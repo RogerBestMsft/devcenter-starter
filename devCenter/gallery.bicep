@@ -59,3 +59,5 @@ resource attachGallery 'Microsoft.DevCenter/devcenters/galleries@2023-10-01-prev
 }
 
 output galleryId string = gallery.id
+output galleryName string = gallery.name
+output galleryProperties object = gallery.properties

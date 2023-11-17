@@ -1,4 +1,4 @@
-// import * as tools from 'tools.bicep'
+import * as tools from 'tools.bicep'
 targetScope = 'resourceGroup'
 
 param config object
@@ -9,6 +9,7 @@ param regionPolicyId string
 var locationMap = loadJsonContent('./data/locations.json')
 var networkName = 'HUB-${tools.getLocationDisplayName(locationMap, network.location, true)}-${format('{0:00}', networkIndex)}'
 
+
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
   name: networkName
   location: network.location
@@ -18,22 +19,10 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
     }
     subnets: [
       {
-        name: 'default'
-        properties: {
-          addressPrefix: cidrSubnet(network.addressPrefix, 26, 0)
-        }
-      }
-      {
         name: 'AzureFirewallSubnet'
         properties: {
-          addressPrefix: cidrSubnet(network.addressPrefix, 26, 1)
+          addressPrefix: network.addressPrefix
         }
-      }
-      {
-        name: 'AzureBastionSubnet'
-        properties: {
-          addressPrefix: cidrSubnet(network.addressPrefix, 26, 2)
-        }      
       }
     ]
   }
@@ -70,7 +59,7 @@ resource firewall 'Microsoft.Network/azureFirewalls@2023-05-01' = {
         name: 'default'
         properties: {
           subnet:{
-            id: virtualNetwork.properties.subnets[1].id
+            id: virtualNetwork.properties.subnets[0].id
           }
           publicIPAddress: {
             id: firewallPIP.id
@@ -83,3 +72,27 @@ resource firewall 'Microsoft.Network/azureFirewalls@2023-05-01' = {
     }
   }
 }
+
+resource workspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+  name: config.name
+}
+
+resource firewallDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: firewall.name
+  scope: firewall
+  properties: {
+    workspaceId: workspace.id
+    logs: [
+      {
+        categoryGroup: 'allLogs'
+        enabled: true
+      }
+    ]
+  }
+}
+
+output network object = union(network, {
+  id: virtualNetwork.id
+  name: virtualNetwork.name
+  properties: virtualNetwork.properties
+})
