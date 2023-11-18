@@ -11,3 +11,4 @@ output devCenterId string = devCenter.id
 output devCenterName string = devCenter.name
 output devCenterLocation string = devCenter.location
 output devCenterProperties object = devCenter.properties
+output devCenterIdentity object = devCenter.identity

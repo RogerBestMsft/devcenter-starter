@@ -1,6 +1,6 @@
 {
 	"$schema": "../../schemas/devCenter.schema.json",
-	"name": "ContosoRnD",
+	"name": "DashTwo",
 	"location": "West Europe",
 	"networks": [
 
@@ -45,21 +45,24 @@
 			"secretRef": "demoEnvironmentsPAT"
 		}
 	],
-	"environmentTypes": {
-		"DEV": {
+	"environmentTypes": [
+		{
+			"name" : "DEV",
 			"tags" : {
 				"EnvironmentType": "DEV"
 			}
 		},
-		"TEST": {
+		{
+			"name" : "TEST",
 			"tags" : {
 				"EnvironmentType": "TEST"
 			}
 		},
-		"PROD": {
+		{
+			"name" : "PROD",
 			"tags" : {
 				"EnvironmentType": "PROD"
 			}
 		}
-	}
+	]
 }

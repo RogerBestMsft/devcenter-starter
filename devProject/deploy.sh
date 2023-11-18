@@ -30,6 +30,14 @@ while getopts 'c:s:fb' OPT; do
     esac
 done
 
+echo "Validating config '$CONFIGFILE' ..."
+if (cat $CONFIGFILE | jq -e . >/dev/null 2>&1); then
+	echo "... done"
+else
+	echo "Config file $CONFIGFILE invalid !!!"
+	exit $?
+fi
+
 if $FORCE; then
 
 	echo "Purging deleted resources ..."
@@ -48,7 +56,9 @@ if $FORCE; then
 fi
 
 echo "Generating data files ..."; mkdir -p $SCRIPT_DIR/data
+[ -f $SCRIPT_DIR/data/secrets.json ] || (echo "{}" > $SCRIPT_DIR/data/secrets.json)
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > $SCRIPT_DIR/data/locations.json
+az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > $SCRIPT_DIR/data/roles.json
 echo "... done"
 
 echo "Deleting output files ..."
@@ -70,10 +80,12 @@ else
 	az deployment sub create \
 		--subscription "$SUBSCRIPTIONID" \
 		--name $(uuidgen) \
-		--location "$(az resource show --id $(jq --raw-output .devCenterId $CONFIGFILE) --query 'location' --output tsv)" \
+		--location "$(az resource show --ids $(jq --raw-output .devCenterId $CONFIGFILE) --query 'location' --output tsv)" \
 		--template-file $SCRIPT_DIR/main.bicep \
 		--only-show-errors \
-		--parameters config=@$CONFIGFILE \
+		--parameters \
+			config=@$CONFIGFILE \
+			secrets=@$SCRIPT_DIR/data/secrets.json \
 		--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
 
 fi

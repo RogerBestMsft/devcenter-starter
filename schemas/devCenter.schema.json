@@ -140,20 +140,21 @@
 			}
 		},
 		"environmentTypes": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"properties": {
-					"name": {
-						"type": "string",
-						"description": "Name of the environment type"
+			"type": "object",
+			"patternProperties": {
+				"^\\w+$": {
+					"type": "object",
+					"properties": {
+						"tags": {
+							"$ref": "./definitions.schema.json#/$defs/tags",
+							"description": "Tags to apply to the environment type"
+						}
 					},
-					"tags": {
-						"$ref": "./definitions.schema.json#/$defs/tags",
-						"description": "Tags applied to the environment type"
-					}
+					"required": [],
+					"additionalProperties": false
 				}
-			}
+			},
+			"additionalProperties": false
 		}
 	},
 	"required": [

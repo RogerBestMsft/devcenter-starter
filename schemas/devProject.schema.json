@@ -116,8 +116,47 @@
 				"required": [
 					"name",
 					"definition"
-				]
+				],
+				"additionalProperties": false
 			}
+		},
+		"environmentTypes": {
+			"type": "object",
+			"patternProperties": {
+				"^\\w+$": {
+					"type": "object",
+					"description": "Name of the environment type",
+					"properties": {
+						"subscription": {
+							"$ref": "./definitions.schema.json#/$defs/guid",
+							"description": "Target subscription of the environment type"
+						},
+						"creatorRoles": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"description": "The role that should be assigned to environment creator on a new environment instance"
+							}
+						},
+						"userRoles": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"description": "The roles that should be assigned to every project user on a new environment instance"
+							}
+						},
+						"tags": {
+							"$ref": "./definitions.schema.json#/$defs/tags",
+							"description": "Tags to apply to the environment type"
+						}
+					},
+					"required": [ 
+						"subscription" 
+					],
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
 		},
 		"admins": {
 			"type": "array",
@@ -135,7 +174,8 @@
 		}
 	},
 	"required": [
-
+		"name",
+		"devCenterId"
 	],
 	"additionalProperties": false
 }

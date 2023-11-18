@@ -39,7 +39,7 @@ module devProject 'devProject.bicep' = {
 }
 
 module devBoxPools 'devBoxPools.bicep' = {
-  name: '${take(deployment().name, 36)}_devBoxPools'
+  name: '${take(deployment().name, 36)}-devBoxPools'
   scope: resourceGroup()
   dependsOn: [
     devProject
@@ -47,5 +47,17 @@ module devBoxPools 'devBoxPools.bicep' = {
   params: {
     config: config
     networks: resourceRegions.outputs.networks
+  }
+}
+
+module environmentTypes 'environmentTypes.bicep' = {
+  name: '${take(deployment().name, 36)}-environmentTypes'
+  scope: resourceGroup()
+  dependsOn: [
+    devProject
+  ]
+  params: {
+    config: config
+    location: getDevProjectRegions.outputs.primary
   }
 }

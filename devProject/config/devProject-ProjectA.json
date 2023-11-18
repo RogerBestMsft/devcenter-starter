@@ -1,7 +1,7 @@
 {
 	"$schema": "../../schemas/devProject.schema.json",
 	"name": "ProjectA",
-	"devCenterId": "/subscriptions/bffe1654-7f9a-4630-b7b9-d24759a76222/resourceGroups/DevCenter-ContosoRnD/providers/Microsoft.DevCenter/devcenters/ContosoRnD",
+	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo/providers/Microsoft.DevCenter/devcenters/DashTwo",
 	"networks" : [
 		{
 			"addressPrefix": "10.0.0.0/26",
@@ -20,6 +20,24 @@
 			"administrator": false
 		}
 	],
+	"environmentTypes": {
+		"DEV": {
+			"subscription": "68dc65ce-2b7d-4d3a-82ab-6917a619098d",
+			"creatorRoles": [
+				"Contributor"
+			],
+			"userRoles": [
+				"Contributor"
+			]
+		},
+		"TEST": {
+			"subscription": "4435d275-9843-4721-b35e-c5975191d31f",
+			"creatorRoles": [ "Contributor" ]
+		},
+		"PROD": {
+			"subscription": "aeb7199e-5f00-4417-83e6-85fdde93ffef"
+		}
+	},
 	"admins" : [
 		{
 			"principalId" : "94bd056c-2134-47a9-845f-a596e960f39b",
@@ -32,6 +50,4 @@
 			"principalType": "User"
 		}
 	]
-	
-
 }

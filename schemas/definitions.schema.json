@@ -2,12 +2,15 @@
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$id": "https://github.com/carmada-dev/devcenter-starter/schemas/definitions.schema.json",
 	"$defs": {
+		"guid": {
+			"type": "string",
+			"pattern":"^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
+		},
 		"principal": {
 			"type": "object",
 			"properties": {
 				"principalId":{
-					"type": "string",
-					"pattern":"^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$"
+					"$ref": "#/$defs/guid"
 				},
 				"principalType": {
 					"type": "string",
