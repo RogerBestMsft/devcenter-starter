@@ -12,113 +12,98 @@
 			"type": "string",
 			"description": "Name of the DevProject"
 		},
+		"zone": {
+			"type": "string",
+			"description": "Root DNS zone of the DevProject"
+		},
 		"devCenterId": {
 			"$ref": "./definitions.schema.json#/$defs/resourceId",
 			"description": "The related DevCenter resource ID"
 		},
 		"networks": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"oneOf": [
-					{
+			"type": "object",
+			"patternProperties": {
+				"^\\w+$": {
+					"type": "array",
+					"items": {
 						"type": "object",
 						"properties": {
-							"addressPrefix": {
-								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
-								"description": "The IP range of the network"
-							},
-							"location": {
-								"$ref": "./definitions.schema.json#/$defs/location",
-								"description": "The location of the network"
-							}
-						},
-						"required": [
-							"addressPrefix"
-						],
-						"additionalProperties": false
-					},
-					{
-						"type": "object",
-						"properties": {
-							"addressPrefix": {
-								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
-								"description": "The IP range of the network"
-							},
-							"hubName": {
+							"hub": {
 								"type": "string",
 								"description": "The related hub vnet name from the DevCenter resource group"
 							},
-							"location": {
-								"$ref": "./definitions.schema.json#/$defs/location",
-								"description": "The location of the network"
-							}
-						},
-						"required": [
-							"addressPrefix",
-							"hubName"
-						],
-						"additionalProperties": false
-					},
-					{
-						"type": "object",
-						"properties": {
 							"addressPrefix": {
 								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
 								"description": "The IP range of the network"
 							},
-							"hubId": {
-								"$ref": "./definitions.schema.json#/$defs/resourceId",
-								"description": "The related hub vnet resource ID"
-							},
 							"location": {
 								"$ref": "./definitions.schema.json#/$defs/location",
 								"description": "The location of the network"
 							}
 						},
 						"required": [
+							"hub",
 							"addressPrefix",
-							"hubId"
+							"location"
 						],
 						"additionalProperties": false
-					}
-				]
-
+					},
+					"minimum": 1
+				}
 			},
-			"minItems": 1
+			"additionalProperties": false
 		},
 		"devBoxPools": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"properties": {
-					"name": {
-						"type": "string",
-						"description": "Name of the DevBox pool"
-					},
-					"definition": {
-						"type": "string",
-						"description": "Name of the DevBox definition to use"
-					},
-					"networks": {
-						"type": "array",
-						"description": "List of project networks (index) to reference",
-						"items": {
-							"type": "integer",
-							"minimum": 0
+			"type": "object",
+			"patternProperties": {
+				"^\\w+$": {
+					"type": "object",
+					"properties": {
+						"definition": {
+							"type": "string",
+							"description": "Name of the DevBox definition to use"
+						},
+						"networks": {
+							"type": "array",
+							"description": "List of networks references",
+							"items": {
+								"type": "object",
+								"properties" :{
+									"scope": {
+										"type": "string",
+										"enum": [ "DevProject", "DevCenter" ]
+									},
+									"name": {
+										"type": "string",
+										"description": "Name of the referenced network"
+									},
+									"locations": {
+										"$ref": "./definitions.schema.json#/$defs/locations",
+										"description": "The locations of the network",
+										"minimum": 1
+									}							
+								},
+								"required": [
+									"scope",
+									"name",
+									"locations"
+								],
+								"additionalProperties": false
+							},
+							"minimum": 1
+						},
+						"administrator": {
+							"type": "boolean",
+							"description": "Indicate if users will become local admin on DevBoxes in this pool"
 						}
 					},
-					"administrator": {
-						"type": "boolean",
-						"description": "Indicate if users will become local admin on DevBoxes in this pool"
-					}
-				},
-				"required": [
-					"name",
-					"definition"
-				],
-				"additionalProperties": false
-			}
+					"required": [
+						"definition"
+					],
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
 		},
 		"environmentTypes": {
 			"type": "object",
@@ -150,8 +135,8 @@
 							"description": "Tags to apply to the environment type"
 						}
 					},
-					"required": [ 
-						"subscription" 
+					"required": [
+						"subscription"
 					],
 					"additionalProperties": false
 				}
@@ -175,6 +160,7 @@
 	},
 	"required": [
 		"name",
+		"zone",
 		"devCenterId"
 	],
 	"additionalProperties": false

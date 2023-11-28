@@ -26,6 +26,12 @@
 			],
 			"additionalProperties": false
 		},
+		"locations": {
+			"type": "array",
+			"items": {
+				"$ref": "#/$defs/location"
+			}
+		},
 		"location": {
 			"type": "string",
 			"enum": [
@@ -47,6 +53,10 @@
 		"addressPrefix": {
 			"type": "string",
 			"pattern": "((^|\\.)((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]?\\d))){4}\\/(?:\\d|[12]\\d|3[01])$"
+		},
+		"addressPrefix25": {
+			"type": "string",
+			"pattern": "((^|\\.)((25[0-5])|(2[0-4]\\d)|(1\\d\\d)|([1-9]?\\d))){4}\\/25$"
 		},
 		"resourceId": {
 			"type": "string",

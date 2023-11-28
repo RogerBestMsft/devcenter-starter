@@ -16,35 +16,48 @@
 			"$ref": "./definitions.schema.json#/$defs/location",
 			"description": "Location of the DevCenter"
 		},
-		"networks": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"anyOf": [
-					{
+		"hubs": {
+			"type": "object",
+			"patternProperties":{
+				"^\\w+$": 							{
+					"type": "array",
+					"items": {
 						"type": "object",
 						"properties": {
 							"addressPrefix": {
-								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
+								"$ref": "./definitions.schema.json#/$defs/addressPrefix25",
 								"description": "The IP range of the network"
 							},
 							"location": {
 								"$ref": "./definitions.schema.json#/$defs/location",
 								"description": "The location of the network"
-							},
-							"type": {
-								"type": "string",
-								"constant": "Hub"
 							}
 						},
 						"required": [
 							"addressPrefix",
-							"type"
-						]
+							"location"
+						],
+						"additionalProperties": false
 					},
-					{
+					"minimum": 1,
+					"additionalProperties": false
+				},
+				"minimum": 1,
+				"additionalProperties": false
+			}
+		},
+		"networks": {
+			"type": "object",
+			"patternProperties": {
+				"^\\w+$": {
+					"type": "array",
+					"items": {
 						"type": "object",
 						"properties": {
+							"hub": {
+								"type": "string",
+								"description": "The related hub vnet name from the DevCenter resource group"
+							},
 							"addressPrefix": {
 								"$ref": "./definitions.schema.json#/$defs/addressPrefix",
 								"description": "The IP range of the network"
@@ -52,20 +65,19 @@
 							"location": {
 								"$ref": "./definitions.schema.json#/$defs/location",
 								"description": "The location of the network"
-							},
-							"type": {
-								"type": "string",
-								"constant": "Net"
 							}
 						},
 						"required": [
+							"hub",
 							"addressPrefix",
-							"type"
-						]
-					}
-
-				]
-			}
+							"location"
+						],
+						"additionalProperties": false
+					},
+					"minimum": 1
+				}
+			},
+			"additionalProperties": false
 		},
 		"devBoxDefinitions": {
 			"type": "array",

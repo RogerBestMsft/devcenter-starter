@@ -2,29 +2,34 @@
 	"$schema": "../../schemas/devProject.schema.json",
 	"name": "ProjectC",
 	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo/providers/Microsoft.DevCenter/devcenters/DashTwo",
-	"networks" : [
-		{
-			"addressPrefix": "10.0.2.0/26",
-			"hubName": "HUB-WESTEUROPE-00"
-			
-		},
-		{
-			"addressPrefix": "10.0.2.64/26",
-			"hubName": "HUB-WESTEUROPE-01"
-		},
-		{
-			"addressPrefix": "10.0.2.128/26",
-			"hubName": "HUB-WESTEUROPE-01"
-		}
-	],
-	"devBoxPools" : [
-		{
-			"name": "VS2022EntBox",
+	"networks" : {
+		"Default": [
+			{
+				"addressPrefix": "10.0.2.0/26",
+				"hubName": "HUB-WESTEUROPE-00"
+				
+			},
+			{
+				"addressPrefix": "10.0.2.64/26",
+				"hubName": "HUB-WESTEUROPE-01"
+			},
+			{
+				"addressPrefix": "10.0.2.128/26",
+				"hubName": "HUB-WESTEUROPE-01"
+			}
+		]
+	},
+	"devBoxPools": {
+		"VS2022EntBox": {
 			"definition": "VS2022EntBox",
-			"networks": [ 0, 1, 2 ],
-			"administrator": true
+			"administrator": false,
+			"networks": [
+				{
+					"name": "Default"
+				}
+			]
 		}
-	],
+	},
 	"admins" : [
 		{
 			"principalId" : "94bd056c-2134-47a9-845f-a596e960f39b",

@@ -8,14 +8,16 @@ usage() {
 	echo " -c [REQUIRED] 	Config file"
 	echo " -f [SWITCH]      Force deployment by purging deleted resources first"
 	echo " -b [SWITCH]      Build instead of deploy the bicep template"
+	echo " -r [SWITCH]		Resolve config only"
 	exit 1; 
 }
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 FORCE=false
 BUILD=false
+RESOLVE=false
 
-while getopts 'c:s:fb' OPT; do
+while getopts 'c:s:fbr' OPT; do
     case "$OPT" in
 		c)
 			CONFIGFILE="${OPTARG}" ;;
@@ -25,6 +27,8 @@ while getopts 'c:s:fb' OPT; do
 			FORCE=true ;;
 		b)
 			BUILD=true ;;
+		r)
+			RESOLVE=true ;;
 		*) 
 			usage ;;
     esac
@@ -85,6 +89,7 @@ else
 		--only-show-errors \
 		--parameters \
 			config=@$CONFIGFILE \
+			resolve=$RESOLVE \
 			secrets=@$SCRIPT_DIR/data/secrets.json \
 		--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
 

@@ -8,14 +8,16 @@ usage() {
 	echo " -c [REQUIRED] 	Config file"
 	echo " -f [SWITCH]      Force deployment by purging deleted resources first"
 	echo " -b [SWITCH]      Build instead of deploy the bicep template"
+	echo " -r [SWITCH]		Resolve config only"
 	exit 1; 
 }
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 FORCE=false
 BUILD=false
+RESOLVE=false
 
-while getopts 'c:s:f' OPT; do
+while getopts 'c:s:fbr' OPT; do
     case "$OPT" in
 		c)
 			CONFIGFILE="${OPTARG}" ;;
@@ -25,6 +27,8 @@ while getopts 'c:s:f' OPT; do
 			FORCE=true ;;
 		b)
 			BUILD=true ;;
+		r)
+			RESOLVE=true ;;
 		*) 
 			usage ;;
     esac
@@ -68,7 +72,8 @@ if $BUILD; then
 
 else
 
-	echo "Deploying DevCenter '$CONFIGFILE' ..."; az deployment sub create \
+	echo "Deploying DevCenter '$CONFIGFILE' ..."
+	az deployment sub create \
 		--subscription "$SUBSCRIPTIONID" \
 		--name $(uuidgen) \
 		--location "$(jq --raw-output .location $CONFIGFILE)" \
@@ -76,8 +81,9 @@ else
 		--only-show-errors \
 		--parameters \
 			config=@$CONFIGFILE \
+			resolve=$RESOLVE \
 			secrets=@$SCRIPT_DIR/data/secrets.json \
 			windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
-		--query properties.outputs > ${CONFIGFILE%.*}.output.json
+		--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
 
 fi

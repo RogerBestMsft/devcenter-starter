@@ -1,26 +1,29 @@
-// import * as tools from 'tools.bicep'
+// import * as tools from '../shared/tools.bicep'
 targetScope = 'subscription'
 
 param config object
+param resolve bool = false
 param windows365PrincipalId string
 
 @secure()
 param secrets object = {}
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
-  name: 'DevCenter-${config.name}'
-  location: config.location
-}
-
-module resources 'resources.bicep' = {
-  name: '${take(deployment().name, 36)}-resources'
-  scope: resourceGroup
+module mainResolve 'mainResolve.bicep' = {
+  name: '${take(deployment().name, 36)}-resolve'
+  scope: subscription()
   params: {
     config: config
-    windows365PrincipalId: windows365PrincipalId
-    secrets: secrets
   }
 }
 
-output workspaceId string = resources.outputs.workspaceId
-output devCenterId string = resources.outputs.devCenterId
+module mainProvision 'mainProvision.bicep' = if(!resolve) {
+  name: '${take(deployment().name, 36)}-provision'
+  scope: subscription()
+  params: {
+    config: mainResolve.outputs.config    
+    secrets: secrets
+    windows365PrincipalId: windows365PrincipalId
+  }
+}
+
+output config object = mainResolve.outputs.config
