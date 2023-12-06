@@ -1,6 +1,7 @@
 {
 	"$schema": "../../schemas/devCenter.schema.json",
-	"name": "DashTwo",
+	"name": "DashTwo-RnD",
+	"zone": "rnd.dash-two.dev",
 	"location": "West Europe",
 	"hubs": {
 		"H00" : [
@@ -32,7 +33,7 @@
 			},
 			{
 				"hub": "H00",
-				"addressPrefix": "10.0.204.0/22",
+				"addressPrefix": "10.0.208.0/22",
 				"location": "Central India"
 			}
 		]

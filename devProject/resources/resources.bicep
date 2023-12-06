@@ -17,7 +17,7 @@ module devProject 'devProject.bicep' = {
 }
 
 resource dnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' = [for (item, index) in networkLocations: {
-  name: join([item, config.name, config.zone], '.')
+  name: join([item, config.zone], '.')
   location: 'global'
 }]
 
@@ -34,14 +34,14 @@ module network 'network.bicep' = [for (item, index) in networks: {
   }
 }]
 
-module meshNetworks '../../shared/meshNetworks.bicep' = {
+module networkMesh '../../shared/meshNetworks.bicep' = if (length(networks) > 1) {
   name: '${take(deployment().name, 36)}-mesh-${uniqueString(string(networks))}'
   scope: subscription()
   dependsOn: [
     network
   ]
   params: {
-    meshNetworkIds: [ for i in range(0, length(networks)) : network[i].outputs.network.id ]   
+    meshNetworkIds: [for i in range(0, length(networks)): network[i].outputs.network.id]
   }
 }
 

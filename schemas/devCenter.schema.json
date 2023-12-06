@@ -12,6 +12,10 @@
 			"type": "string",
 			"description": "Name of the DevCenter"
 		},
+		"zone": {
+			"type": "string",
+			"description": "DNS zone of the DevCenter"
+		},
 		"location": {
 			"$ref": "./definitions.schema.json#/$defs/location",
 			"description": "Location of the DevCenter"
@@ -171,6 +175,7 @@
 	},
 	"required": [
 		"name",
+		"zone",
 		"location",
 		"networks",
 		"devBoxDefinitions"

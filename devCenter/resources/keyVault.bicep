@@ -50,7 +50,7 @@ resource roleDefinitionKeyVaultSecretsUser 'Microsoft.Authorization/roleDefiniti
   name: '4633458b-17de-408a-b874-0445c86b69e6'
 }
 
-module roleAssignmentKeyVaultSecretsUser '../../shared/assignRole2Gallery.bicep' = {
+module roleAssignmentKeyVaultSecretsUser '../../shared/assignRole2KeyVault.bicep' = {
   name: '${take(deployment().name, 36)}-${uniqueString(deployment().name, 'roleAssignmentKeyVaultSecretsUser')}'
   scope: resourceGroup()
   params: {

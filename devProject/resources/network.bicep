@@ -35,7 +35,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
 }
 
 resource dnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: join([network.location, config.name, config.zone], '.')
+  name: join([network.location, config.zone], '.')
 }
 
 resource dnsZoneLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {

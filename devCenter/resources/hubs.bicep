@@ -20,6 +20,9 @@ module policy 'policy.bicep' = [for (item, index) in regions: {
 module hub 'hub.bicep' = [for (item, index) in hubs: {
   name: '${take(deployment().name, 36)}-hub-${format('{0:00}', index)}'
   scope: resourceGroup()
+  dependsOn: [
+    policy
+  ]
   params: {
     config: config
     hub: item

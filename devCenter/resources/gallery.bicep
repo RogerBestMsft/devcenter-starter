@@ -4,12 +4,14 @@ targetScope = 'resourceGroup'
 param config object
 param windows365PrincipalId string
 
+var galleryName = replace(config.name, '-', '_')
+
 resource devCenter 'Microsoft.DevCenter/devcenters@2023-10-01-preview' existing = {
   name: config.name
 }
 
 resource gallery 'Microsoft.Compute/galleries@2021-10-01' = {
-  name: config.name
+  name: galleryName
   location: config.location
 }
 
@@ -44,7 +46,7 @@ module roleAssignmentReader '../../shared/assignRole2Gallery.bicep' = {
 }
 
 resource attachGallery 'Microsoft.DevCenter/devcenters/galleries@2023-10-01-preview' = {
-  name: config.name
+  name: gallery.name
   parent: devCenter
   dependsOn: [
     roleAssignmentContributor

@@ -1,8 +1,8 @@
 {
 	"$schema": "../../schemas/devProject.schema.json",
 	"name": "ProjectA",
-	"zone": "dash-two.de",
-	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo/providers/Microsoft.DevCenter/devcenters/DashTwo",
+	"zone": "projectA.rnd.dash-two.dev",
+	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo-RnD/providers/Microsoft.DevCenter/devcenters/DashTwo-RnD",
 	"networks" : {
 		"Default" : [
 			{

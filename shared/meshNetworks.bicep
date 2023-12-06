@@ -3,9 +3,9 @@ targetScope = 'subscription'
 
 param meshNetworkIds array
 param meshPeeringPrefix string = 'Mesh'
-param OperationId string = newGuid()
+param OperationId string = guid(deployment().name)
 
-module peerNetworks 'peerNetworks.bicep' = [for (item, index) in meshNetworkIds: if ((index+1) < length(meshNetworkIds)) {
+module peerNetworks 'peerNetworks.bicep' = [for (item, index) in meshNetworkIds: if ((index + 1) < length(meshNetworkIds)) {
   name: '${take(deployment().name, 36)}_${uniqueString('mesh', item, OperationId)}'
   scope: subscription(split(item, '/')[2])
   params: {
