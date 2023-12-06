@@ -1,16 +1,26 @@
 {
 	"$schema": "../../schemas/devProject.schema.json",
 	"name": "ProjectB",
-	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo/providers/Microsoft.DevCenter/devcenters/DashTwo",
+	"zone": "projectb.rnd.dash-two.dev",
+	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo-RnD/providers/Microsoft.DevCenter/devcenters/DashTwo-RnD",
 	"networks": {
 		"Default": [
 			{
+				"hub": "H00",
 				"addressPrefix": "10.0.1.0/26",
-				"hubName": "HUB-WESTEUROPE-00"
+				"location": "West Europe"
 			},
 			{
+				"hub": "H00",
 				"addressPrefix": "10.0.1.64/26",
-				"hubName": "HUB-WESTEUROPE-01"
+				"location": "East US 2"
+			}
+		],
+		"Confidential": [
+			{
+				"hub": "H00",
+				"addressPrefix": "10.0.1.128/26",
+				"location": "West Europe"
 			}
 		]
 	},
@@ -20,7 +30,12 @@
 			"administrator": false,
 			"networks": [
 				{
-					"name": "Default"
+					"scope": "DevProject",
+					"name": "Default",
+					"locations": [
+						"West Europe",
+						"East US 2"
+					]
 				}
 			]
 		}

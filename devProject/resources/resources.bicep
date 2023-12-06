@@ -5,7 +5,7 @@ param config object
 
 var devCenterName = tools.getResourceName(config.devCenterId)
 var networks = contains(config, 'networks') ? config.networks : []
-var networkLocations = union(map(networks, network => network.location), [])
+var networkRegions = union(map(networks, network => network.location), [])
 var devBoxPools = contains(config, 'devBoxPools') ? config.devBoxPools : []
 
 module devProject 'devProject.bicep' = {
@@ -16,17 +16,9 @@ module devProject 'devProject.bicep' = {
   }
 }
 
-resource dnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' = [for (item, index) in networkLocations: {
-  name: join([item, config.zone], '.')
-  location: 'global'
-}]
-
 module network 'network.bicep' = [for (item, index) in networks: {
   name: '${take(deployment().name, 36)}-network-${format('{0:00}', index)}'
   scope: resourceGroup()
-  dependsOn: [
-    dnsZone
-  ]
   params: {
     config: config
     network: item
@@ -44,6 +36,23 @@ module networkMesh '../../shared/meshNetworks.bicep' = if (length(networks) > 1)
     meshNetworkIds: [for i in range(0, length(networks)): network[i].outputs.network.id]
   }
 }
+
+resource networkZone 'Microsoft.Network/privateDnsZones@2020-06-01' = [for (item, index) in networkRegions: {
+  name: join([item, config.zone], '.')
+  location: 'global'
+}]
+
+module networkZoneRegister '../../shared/registerDnsZone.bicep' = [for (item, index) in networkRegions: {
+  name: '${take(deployment().name, 36)}-zone-${item}'
+  scope: resourceGroup()
+  params: {
+    config: config
+    zone: networkZone[index].name
+    autoNetworkIds: [for i in range(0, length(networks)): network[i].outputs.network.location == item ? network[i].outputs.network.id : '']
+    linkNetworkIds: [for i in range(0, length(networks)): network[i].outputs.network.location != item ? network[i].outputs.network.id : '']
+  }
+}]
+
 
 module devBoxPool 'devBoxPool.bicep' = [for (item, index) in devBoxPools: {
   name: '${take(deployment().name, 36)}-devBoxPool-${format('{0:00}', index)}'

@@ -34,22 +34,6 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-05-01' = {
   }
 }
 
-resource dnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: join([network.location, config.zone], '.')
-}
-
-resource dnsZoneLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {
-  name: dnsZone.name
-  location: 'global'
-  parent: dnsZone
-  properties: {
-    registrationEnabled: true
-    virtualNetwork: {
-      id: virtualNetwork.id
-    }
-  }
-}
-
 module registerIpGroup '../../shared/registerIpGroup.bicep' = {
   name: '${take(deployment().name, 36)}-${uniqueString(deployment().name, virtualNetwork.id)}'
   scope: resourceGroup(split(networkHub.id, '/')[2], split(networkHub.id, '/')[4])
