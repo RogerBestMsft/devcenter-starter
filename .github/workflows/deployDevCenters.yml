@@ -26,8 +26,7 @@ jobs:
       - name: set-configuration_matrix
         id: configuration-matrix
         working-directory: ./devCenter/config
-        run: echo "matrix=$(ls | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
-          echo "matrix=$(ls | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "matrix=$(ls | jq -R -s -c 'split("\n")[:-1]')"
     
     outputs:
       matrix: ${{ steps.configuration-matrix.outputs }}
