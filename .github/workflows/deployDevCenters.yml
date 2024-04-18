@@ -19,6 +19,8 @@ jobs:
   build_configuration_matrix:
     runs-on: ubuntu-latest
 
+    outputs:
+      matrix: ${{ steps.configuration-matrix.outputs.matrix }}
     steps:
 
       - uses: actions/checkout@v2
@@ -27,9 +29,6 @@ jobs:
         id: configuration-matrix
         working-directory: ./devCenter/config
         run: echo "matrix=$(ls | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
-    
-    outputs:
-      matrix: ${{ steps.configuration-matrix.outputs }}
 
   build_devcenters:
     # Matrix of subscriptions
