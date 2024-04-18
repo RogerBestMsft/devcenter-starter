@@ -1,5 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 name: Deploy Azure DevCenters
+run-name: Deploy Azure DevCenters
 
 # Controls when the workflow will run
 on:
@@ -64,7 +65,7 @@ jobs:
       #      tenant-id: ${{ TENANT_ID }}
       #      subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
 
-        # Create DevCenters
-      - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }}'
-          run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}"
-          #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}
+      # Create DevCenters
+      - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
+        run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}"
+        #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}
