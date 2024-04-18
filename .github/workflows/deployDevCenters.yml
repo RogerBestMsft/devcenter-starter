@@ -45,20 +45,21 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Get data from matrix file
-          
-      # Connect to cli using openid auth
-      #- name: 'Az CLI login'
-      #  uses: azure/login@v1
-      #  with:
-      #      client-id: ${{ matrix.CLIENT_ID }}
-      #      tenant-id: ${{ matrix.TENANT_ID }}
-      #      subscription-id: ${{ matrix.SUBSCRIPTION_ID }}
+      # Get data from configuration file
       - name: 'Get Subscription Id'
         id: SubscriptionId
         working-directory: ./devCenter/config
         run: echo "SUBSCRIPTIONID=$(jq --raw-output .subscription ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
 
-      - name: 'Test matrix'
-        run: echo ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID}}
-      #  run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}
+      # Connect to cli using openid auth
+      #- name: 'Az CLI login'
+      #  uses: azure/login@v1
+      #  with:
+      #      client-id: "${{ CLIENT_ID }}"
+      #      tenant-id: ${{ TENANT_ID }}
+      #      subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
+
+        # Create DevCenters
+      - name: 'Create DevCenters $(jq --raw-output .name ${{ matrix.configurations }})'
+          run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}"
+          #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}
