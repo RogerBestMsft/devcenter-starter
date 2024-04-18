@@ -57,7 +57,7 @@ jobs:
       - name: 'Get Subscription Id'
         id: SubscriptionId
         working-directory: ./devCenter/config
-        run: echo "SUBSCRIPTIONID=$(jq --raw-output .subscription ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+        run: echo "SUBSCRIPTIONID=$(jq --raw-output .subscription ${{ matrix.configurations }})" #>> $GITHUB_OUTPUT
 
       - name: 'Test matrix'
         run: echo ${{ steps.SubscriptionId.outputs}}
