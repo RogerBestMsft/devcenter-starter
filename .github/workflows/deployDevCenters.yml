@@ -60,5 +60,5 @@ jobs:
         run: echo "SUBSCRIPTIONID=$(jq --raw-output .subscription ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
 
       - name: 'Test matrix'
-        run: echo ${{ steps.SubscriptionId.outputs.value}}
+        run: echo ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID}}
       #  run: bash setup.sh -s $subscriptionId -c file
