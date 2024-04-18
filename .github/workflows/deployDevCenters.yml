@@ -24,17 +24,18 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: set-configuration_matrix
+        id: configuration-matrix
         working-directory: ./devCenter/config
         run: echo "::set-output name=matrix::$(ls | jq -R -s -c 'split("\n")[:-1]')"
     
     outputs:
-      matrix: ${{ steps.set-configuration_matrix.outputs.matrix }}
+      matrix: ${{ steps.configuration-matrix.outputs }}
 
   build_devcenters:
     # Matrix of subscriptions
     strategy:
       matrix:
-        configurations: ${{fromJson(needs.build_configuration_matrix.outputs.matrix)}}
+        configurations: ${{ fromJson(needs.build_configuration_matrix.outputs.matrix) }}
 
         # The type of runner that the job will run on
     runs-on: ubuntu-latest
