@@ -58,5 +58,5 @@ jobs:
       
       #- name: 'Run DevCenter deployment'
       #  run: bash setup.sh -s $subscriptionId -c file
-      - name: 'Test matrix information'
-        echo "${{ matrix.value }}"
+    outputs:
+      testMatrix: ${{ matrix.configurations }}
