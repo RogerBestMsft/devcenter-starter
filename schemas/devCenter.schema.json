@@ -8,6 +8,14 @@
 		"$schema": {
 			"type": "string"
 		},
+		"subscription": {
+			"type": "string",
+			"description": "Subscription ID of the DevCenter"
+		},
+		"resourceGroupName": {
+			"type": "string",
+			"description": "Resource Group name of the DevCenter"
+		},
 		"name": {
 			"type": "string",
 			"description": "Name of the DevCenter"

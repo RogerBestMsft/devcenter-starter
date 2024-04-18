@@ -1,9 +1,9 @@
 {
 	"$schema": "../../schemas/devCenter.schema.json",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
-	"resourceGroupName": "DevCenter-DashTwo-RnD",
-	"name": "DashTwo-RnD",
-	"zone": "rnd.dash-two.dev",
+	"resourceGroupName": "DevCenter-DashThree-RnD",
+	"name": "DashThree-RnD",
+	"zone": "rnd.dash-three.dev",
 	"location": "West Europe",
 	"hubs": {
 		"H00" : [

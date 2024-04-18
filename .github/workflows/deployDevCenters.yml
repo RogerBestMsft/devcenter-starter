@@ -1,0 +1,62 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  #push:
+  #  branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build_configuration_matrix:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: set directory
+        run: cd ../../devCenter/config
+
+      - name: set-configuration_matrix
+        run: echo "::set-output name=matrix::$(ls | jq -R -s -c 'split("\n")[:-1]')"
+    
+    outputs:
+      matrix: ${{ steps.set-configuration_matrix.outputs.matrix }}
+
+  build_devcenters:
+    # Matrix of subscriptions
+    strategy:
+      matrix:
+        configurations: ${{ fromJson(needs.builder.outputs.matrix) }}
+
+        # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Get data from matrix file
+          
+      # Connect to cli using openid auth
+      #- name: 'Az CLI login'
+      #  uses: azure/login@v1
+      #  with:
+      #      client-id: ${{ matrix.CLIENT_ID }}
+      #      tenant-id: ${{ matrix.TENANT_ID }}
+      #      subscription-id: ${{ matrix.SUBSCRIPTION_ID }}
+      
+      #- name: 'Run DevCenter deployment'
+      #  run: bash setup.sh -s $subscriptionId -c file
+      - name: 'Test matrix information'
+        echo "${{ matrix.value }}"
