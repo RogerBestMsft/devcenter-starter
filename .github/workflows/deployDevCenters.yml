@@ -23,10 +23,8 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: set directory
-        run: cd ../../devCenter/config
-
       - name: set-configuration_matrix
+        working-directory: ./devCenter/config
         run: echo "::set-output name=matrix::$(ls | jq -R -s -c 'split("\n")[:-1]')"
     
     outputs:
