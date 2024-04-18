@@ -1,6 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-
-name: CI
+name: Deploy Azure DevCenters
 
 # Controls when the workflow will run
 on:
@@ -45,12 +44,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Get data from configuration file
+      # Get subscription from configuration file
       - name: 'Get Subscription Id'
         id: SubscriptionId
         working-directory: ./devCenter/config
         run: echo "SUBSCRIPTIONID=$(jq --raw-output .subscription ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
 
+      # Get name from configuration file
+      - name: 'Get DevCenter Name'
+        id: DevCenterName
+        working-directory: ./devCenter/config
+        run: echo "DEVCENTERNAME=$(jq --raw-output .name ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+    
       # Connect to cli using openid auth
       #- name: 'Az CLI login'
       #  uses: azure/login@v1
@@ -60,6 +65,6 @@ jobs:
       #      subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
 
         # Create DevCenters
-      - name: 'Create DevCenters $(jq --raw-output .name ${{ matrix.configurations }})'
+      - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }}'
           run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}"
           #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c ${{ matrix.configurations }}
