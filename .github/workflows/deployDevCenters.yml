@@ -28,7 +28,7 @@ jobs:
       matrix: ${{ steps.configuration-matrix.outputs.matrix }}
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: set-configuration_matrix
         id: configuration-matrix
