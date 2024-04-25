@@ -58,12 +58,12 @@ jobs:
         run: echo "DEVCENTERNAME=$(jq --raw-output .name ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
     
       # Connect to cli using openid auth
-      #- name: 'Az CLI login'
-      #  uses: azure/login@v1
-      #  with:
-      #      client-id: "${{ CLIENT_ID }}"
-      #      tenant-id: ${{ TENANT_ID }}
-      #      subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+            client-id: "${{ CLIENT_ID }}"
+            tenant-id: ${{ TENANT_ID }}
+            subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
