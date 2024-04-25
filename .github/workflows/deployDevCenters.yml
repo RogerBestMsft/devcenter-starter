@@ -59,7 +59,7 @@ jobs:
     
       # Connect to cli using openid auth
       - name: 'Az CLI login'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
             client-id: "${{ secrets.CLIENT_ID }}"
             tenant-id: ${{ secrets.TENANT_ID }}
@@ -70,3 +70,5 @@ jobs:
         working-directory: ./devCenter
         run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './devCenter/config/${{ matrix.configurations }}'"
         #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './devCenter/config/${{ matrix.configurations }}''
+
+      
