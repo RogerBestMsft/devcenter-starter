@@ -45,7 +45,7 @@ echo "... done"
 echo "Create Resource Group $RESOURCEGROUPNAME"
 if [ $(az group exists --name $RESOURCEGROUPNAME) = false ]; then
 	echo "Creating resource group $RESOURCEGROUPNAME"
-    az group create --name $RESOURCEGROUPNAME --location "$LOCATION"
+    az group create --name $RESOURCEGROUPNAME --location "$LOCATION" >/dev/null
 fi
 echo "... done"
 
@@ -53,7 +53,8 @@ echo "Enable DevCenter cli extension"
 az extension add --name devcenter --allow-preview true
 echo "... done"
 
-if $(az devcenter admin devcenter show --name $DEVCENTERNAME --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID); then
+dc_info = $(az devcenter admin devcenter show --name $DEVCENTERNAME --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID)
+if [ -z "$dc_info" ]; then
 
 	echo "Deploying DevCenter '$CONFIGFILE' ..."
 	az deployment sub create \
