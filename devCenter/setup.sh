@@ -45,7 +45,7 @@ echo "... done"
 echo "Create Resource Group $RESOURCEGROUPNAME"
 if [ $(az group exists --name $RESOURCEGROUPNAME) = false ]; then
 	echo "Creating resource group $RESOURCEGROUPNAME"
-    az group create --name $RESOURCEGROUPNAME --location $LOCATION
+    az group create --name $RESOURCEGROUPNAME --location "$LOCATION"
 fi
 echo "... done"
 
