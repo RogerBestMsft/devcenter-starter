@@ -61,8 +61,8 @@ jobs:
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
-            client-id: "${{ CLIENT_ID }}"
-            tenant-id: ${{ TENANT_ID }}
+            client-id: "${{ secrets.CLIENT_ID }}"
+            tenant-id: ${{ secrets.TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
 
       # Create DevCenters
