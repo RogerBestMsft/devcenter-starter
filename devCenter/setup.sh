@@ -38,6 +38,19 @@ echo "Checking for DevCenter"
 SUBSCRIPTIONID=$(jq --raw-output .subscription $CONFIGFILE)
 DEVCENTERNAME=$(jq --raw-output .name $CONFIGFILE)
 RESOURCEGROUPNAME=$(jq --raw-output .resourceGroupName $CONFIGFILE)
+LOCATION=$(jq --raw-output .location $CONFIGFILE)
+echo "Deploying to $SUBSCRIPTIONID, in $RESOURCEGROUPNAME for $DEVCENTERNAME at $LOCATION"
+
+echo "Create Resource Group $RESOURCEGROUPNAME"
+if [ $(az group exists --name $RESOURCEGROUPNAME) = false ]; then
+    az group create --name $RESOURCEGROUPNAME --location $LOCATION
+fi
+echo "... done"
+
+echo "Enable DevCenter cli extension"
+az extension add --name devcenter
+echo "... done"
+
 if $(az devcenter admin devcenter show --name $DEVCENTERNAME --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID); then
 
 	echo "Deploying DevCenter '$CONFIGFILE' ..."
