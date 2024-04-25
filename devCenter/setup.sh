@@ -40,15 +40,17 @@ DEVCENTERNAME=$(jq --raw-output .name $CONFIGFILE)
 RESOURCEGROUPNAME=$(jq --raw-output .resourceGroupName $CONFIGFILE)
 LOCATION=$(jq --raw-output .location $CONFIGFILE)
 echo "Deploying to $SUBSCRIPTIONID, in $RESOURCEGROUPNAME for $DEVCENTERNAME at $LOCATION"
+echo "... done"
 
 echo "Create Resource Group $RESOURCEGROUPNAME"
 if [ $(az group exists --name $RESOURCEGROUPNAME) = false ]; then
+	echo "Creating resource group $RESOURCEGROUPNAME"
     az group create --name $RESOURCEGROUPNAME --location $LOCATION
 fi
 echo "... done"
 
 echo "Enable DevCenter cli extension"
-az extension add --name devcenter
+az extension add --name devcenter --allow-preview true
 echo "... done"
 
 if $(az devcenter admin devcenter show --name $DEVCENTERNAME --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID); then
@@ -57,7 +59,7 @@ if $(az devcenter admin devcenter show --name $DEVCENTERNAME --resource-group $R
 	az deployment sub create \
 		--subscription "$SUBSCRIPTIONID" \
 		--name $(uuidgen) \
-		--location "$(jq --raw-output .location $CONFIGFILE)" \
+		--location "$LOCATION" \
 		--template-file ./main.bicep \
 		--only-show-errors \
 		--parameters \
