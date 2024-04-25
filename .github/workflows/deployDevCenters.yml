@@ -74,6 +74,6 @@ jobs:
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         #run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './devCenter/config/${{ matrix.configurations }}'"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './devCenter/config/${{ matrix.configurations }}''
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './devCenter/config/${{ matrix.configurations }}'
 
       
