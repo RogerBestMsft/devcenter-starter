@@ -80,7 +80,7 @@ jobs:
         working-directory: ./devCenter
         env:
           SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
-        run: echo "$(SUPER_SECRET)"
+        run: echo "DEVCENTERNAME=$(jq --raw-output .name ${{ $SUPER_SECRET }})"
         #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g '$SUPER_SECRET'
 
       
