@@ -50,6 +50,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      # Install dos2unix
+      - name: Install Dos2Unix
+        run: sudo apt-get install dos2unix
+
       # Get subscription from configuration file
       - name: 'Get Subscription Id'
         id: SubscriptionId
@@ -70,10 +74,11 @@ jobs:
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
 
+      # Secrets for 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         #run: echo "-s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './devCenter/config/${{ matrix.configurations }}'"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}'
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ secrets.DEVCENTER_SECRETS}}
 
       
