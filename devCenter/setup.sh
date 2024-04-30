@@ -55,6 +55,7 @@ echo "Enable DevCenter cli extension"
 az extension add --name devcenter --allow-preview true
 echo "... done"
 
+echo "Check for existance of Devcenter: $DEVCENTERNAME"
 if [ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']") ]; then
 
 	echo "Deploying DevCenter '$CONFIGFILE' ..."
