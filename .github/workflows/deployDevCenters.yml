@@ -79,7 +79,7 @@ jobs:
         working-directory: ./devCenter
         env:
           SUPER_SECRET: "{${{ vars.DEVCENTER_VARIABLE}}}"
-        run: echo "Test $SUPER_SECRET"
-        #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $SUPER_SECRET
+        #run: echo "Test $SUPER_SECRET"
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $SUPER_SECRET
 
       
