@@ -41,6 +41,8 @@ SUBSCRIPTIONID=$(jq --raw-output .subscription $CONFIGFILE)
 DEVCENTERNAME=$(jq --raw-output .name $CONFIGFILE)
 RESOURCEGROUPNAME=$(jq --raw-output .resourceGroupName $CONFIGFILE)
 LOCATION=$(jq --raw-output .location $CONFIGFILE)
+NEWSECRETS=$($SECRETS | jq .)
+
 echo "Deploying to $SUBSCRIPTIONID, in $RESOURCEGROUPNAME for $DEVCENTERNAME at $LOCATION"
 echo "... done"
 
@@ -68,7 +70,7 @@ if [ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --s
 		--parameters \
 			config=@$CONFIGFILE \
 			resolve=$RESOLVE \
-			secrets=@$SECRETS \
+			secrets=@$NEWSECRETS \
 			windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
 		--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
 
