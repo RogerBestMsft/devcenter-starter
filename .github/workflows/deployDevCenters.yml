@@ -74,13 +74,12 @@ jobs:
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
 
-      # Secrets for 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         env:
           SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
-        run: echo "DEVCENTERNAME=$(jq --raw-output .name $SUPER_SECRET)"
+        run: echo ${{ variables.DEVCENTER_VARIABLE }}
         #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g '$SUPER_SECRET'
 
       
