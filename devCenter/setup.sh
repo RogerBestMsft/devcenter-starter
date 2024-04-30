@@ -11,7 +11,7 @@ usage() {
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-while getopts 'c:s:fbr' OPT; do
+while getopts 'c:s:g:fbr' OPT; do
     case "$OPT" in
 		c)
 			CONFIGFILE="${OPTARG}" ;;
