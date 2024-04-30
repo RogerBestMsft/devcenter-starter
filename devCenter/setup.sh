@@ -55,10 +55,10 @@ echo "Enable DevCenter cli extension"
 az extension add --name devcenter --allow-preview true
 echo "... done"
 
-DC_INFO = $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']")
+#DC_INFO = $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']")
 
 #if [ -z "$DC_INFO" ]; then
-if [[ $DC_INFO ]]
+if [[ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']") ]]
 
 	echo "Deploying DevCenter '$CONFIGFILE' ..."
 	az deployment sub create \
