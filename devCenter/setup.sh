@@ -58,7 +58,7 @@ echo "... done"
 #DC_INFO = $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']")
 
 #if [ -z "$DC_INFO" ]; then
-if [[ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']" | wc -c) -eq 0 ]]
+if [ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']" | wc -c) -eq 0 ]
 
 	echo "Deploying DevCenter '$CONFIGFILE' ..."
 	az deployment sub create \
