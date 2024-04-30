@@ -78,7 +78,7 @@ jobs:
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter        
         env:
-          SUPER_SECRET: ${{ convertToJson(vars.DEVCENTER_VARIABLE) }}
+          SUPER_SECRET: ${{ toJson(vars.DEVCENTER_VARIABLE) }}
         #run: echo "${{ convertToJson(vars.DEVCENTER_VARIABLE) }}"
         run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $SUPER_SECRET
       
