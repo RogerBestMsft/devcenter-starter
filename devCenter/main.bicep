@@ -16,14 +16,14 @@ module mainResolve 'mainResolve.bicep' = {
   }
 }
 
-// module mainProvision 'mainProvision.bicep' = if(!resolve) {
-//   name: '${take(deployment().name, 36)}-provision'
-//   scope: subscription()
-//   params: {
-//     config: mainResolve.outputs.config    
-//     secrets: secrets
-//     windows365PrincipalId: windows365PrincipalId
-//   }
-// }
+module mainProvision 'mainProvision.bicep' = if(!resolve) {
+  name: '${take(deployment().name, 36)}-provision'
+  scope: subscription()
+  params: {
+    config: mainResolve.outputs.config    
+    secrets: secrets
+    windows365PrincipalId: windows365PrincipalId
+  }
+}
 
 output config object = mainResolve.outputs.config
