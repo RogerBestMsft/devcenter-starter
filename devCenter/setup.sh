@@ -41,7 +41,7 @@ SUBSCRIPTIONID=$(jq --raw-output .subscription $CONFIGFILE)
 DEVCENTERNAME=$(jq --raw-output .name $CONFIGFILE)
 RESOURCEGROUPNAME=$(jq --raw-output .resourceGroupName $CONFIGFILE)
 LOCATION=$(jq --raw-output .location $CONFIGFILE)
-echo "xxx: $($SECRETS | jq .)"
+echo "xxx: $SECRETS"
 
 echo "Deploying to $SUBSCRIPTIONID, in $RESOURCEGROUPNAME for $DEVCENTERNAME at $LOCATION"
 echo "... done"
