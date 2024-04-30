@@ -56,7 +56,9 @@ az extension add --name devcenter --allow-preview true
 echo "... done"
 
 echo "Test Secrets"
-echo $Secrets
+echo "xx: $Secrets"
+
+echo "DC enabled: $(az extension list --output tsv)"
 
 dc_info = $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']")
 echo "TEST: $dc_info"
