@@ -60,6 +60,10 @@ echo "xx: $Secrets"
 
 echo "DC enabled: $(az extension list --output tsv)"
 
+echo "Test A $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']")"
+
+echo "Test B $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID)"
+
 dc_info = $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']")
 echo "TEST: $dc_info"
 
