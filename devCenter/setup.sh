@@ -56,10 +56,6 @@ echo "Enable DevCenter cli extension"
 az extension add --name devcenter --allow-preview true
 echo "... done"
 
-echo "Get principal id"
-az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv
-echo "... done"
-
 echo "Check for existance of Devcenter: $DEVCENTERNAME"
 if [ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --subscription $SUBSCRIPTIONID --query "[?name=='$DEVCENTERNAME']") ]; then
 
