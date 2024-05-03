@@ -58,7 +58,7 @@ echo "... done"
 
 echo "test secret"
 echo $SECRETS
-echo $($SECRETS | jq --raw-output)
+echo $($SECRETS | jq -rc )
 echo "... done"
 
 echo "Check for existance of Devcenter: $DEVCENTERNAME"
