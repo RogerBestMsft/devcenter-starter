@@ -6,7 +6,9 @@ param resolve bool = false
 param windows365PrincipalId string
 
 @secure()
-param secrets object = {}
+param secrets string
+
+var  secrets2 = json(secrets)
 
 module mainResolve 'mainResolve.bicep' = {
   name: '${take(deployment().name, 36)}-resolve'
@@ -21,7 +23,7 @@ module mainProvision 'mainProvision.bicep' = if(!resolve) {
   scope: subscription()
   params: {
     config: mainResolve.outputs.config    
-    secrets: secrets
+    secrets: secrets2
     windows365PrincipalId: windows365PrincipalId
   }
 }
