@@ -57,7 +57,7 @@ az extension add --name devcenter --allow-preview true
 echo "... done"
 
 echo "test $($SECRETS | jq)"
-$($SECRETS | jq)
+$SECRETS
 echo "... done"
 
 echo "Check for existance of Devcenter: $DEVCENTERNAME"
@@ -73,7 +73,7 @@ if [ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --s
 		--parameters \
 			config=@$CONFIGFILE \
 			resolve=$RESOLVE \
-			secrets=$($SECRETS | jq) \
+			secrets=$SECRETS \
 			windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
 		--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
 
