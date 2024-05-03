@@ -80,6 +80,6 @@ jobs:
         env:
           SUPER_SECRET: ${{ toJson(vars.DEVCENTER_VARIABLE) }}
           ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
-        run: echo "${{ env.ENV_JSON }}"
-        #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ env.ENV_JSON }}
+        #run: echo "${{ env.ENV_JSON }}"
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ env.ENV_JSON }}
       
