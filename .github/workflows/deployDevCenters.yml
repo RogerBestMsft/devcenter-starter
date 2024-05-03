@@ -73,14 +73,13 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
-      
-      
+            
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter        
         env:
           SUPER_SECRET: ${{ toJson(vars.DEVCENTER_VARIABLE) }}
           ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
-        #run: echo "$SUPER_SECRET"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ env.ENV_JSON }}
+        run: echo ${{ env.ENV_JSON }}
+        #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ env.ENV_JSON }}
       
