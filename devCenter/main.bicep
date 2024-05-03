@@ -5,7 +5,7 @@ param config object
 param resolve bool = false
 param windows365PrincipalId string
 
-@secure()
+//@secure()
 param secrets string
 
 //var  secrets2 = json(secrets)
