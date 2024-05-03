@@ -74,11 +74,17 @@ jobs:
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
         
+      # Get DevCenter Secrets/Variables
+      - name: Export variables from secret
+        run: |
+          ENV_JSON='${{ vars.DEVCENTER_VARIABLE }}'
+          echo "$ENV_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter        
         env:
           SUPER_SECRET: ${{ toJson(vars.DEVCENTER_VARIABLE) }}
         #run: echo "$SUPER_SECRET"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $SUPER_SECRET
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $ENV_JSON
       
