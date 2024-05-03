@@ -8,7 +8,7 @@ param windows365PrincipalId string
 @secure()
 param secrets string
 
-var  secrets2 = json(secrets)
+//var  secrets2 = json(secrets)
 
 // module mainResolve 'mainResolve.bicep' = {
 //   name: '${take(deployment().name, 36)}-resolve'
@@ -29,5 +29,5 @@ var  secrets2 = json(secrets)
 // }
 
 // output config object = mainResolve.outputs.config
-
-output test object = secrets2
+output test object = secrets
+//output test2 object = secrets2
