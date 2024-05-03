@@ -29,5 +29,5 @@ param secrets string
 // }
 
 // output config object = mainResolve.outputs.config
-output test = secrets
+output test string = secrets
 //output test2 object = secrets2
