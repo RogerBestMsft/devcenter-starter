@@ -77,7 +77,7 @@ jobs:
       # Get secrets
       - name: 'Convert secrets'
         working-directory: ./devCenter
-        run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode) > secrets.json
+        run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode > secrets.json
 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
