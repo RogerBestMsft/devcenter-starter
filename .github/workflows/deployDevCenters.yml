@@ -79,12 +79,17 @@ jobs:
         working-directory: ./devCenter
         run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode > secrets.json
 
+      # Get secrets
+      - name: 'show secrets'
+        working-directory: ./devCenter
+        run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode 
+
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         env:
           SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
           ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
-        #run: echo "${{ env.ENV_JSON }}"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g secrets.json
+        run: echo "SEC $(secrets.json)"
+        #run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g secrets.json
       
