@@ -73,7 +73,12 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
-            
+
+      # Get secrets
+      - name: 'Convert secrets'
+        id: ConvertSecrets
+        run: echo "TEST=$(${{ secrets.DEVCENTER_SECRETS }} | base64 --decode)"
+
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter        
@@ -81,5 +86,5 @@ jobs:
           SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
           ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
         #run: echo "${{ env.ENV_JSON }}"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $(${{ secrets.DEVCENTER_SECRETS }} | base64 --decode)
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ steps.ConvertSecrets.outputs.TEST }}
       
