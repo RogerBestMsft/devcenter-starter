@@ -26,7 +26,7 @@ done
 
 
 echo "Generating data files ..."; mkdir -p $SCRIPT_DIR/data
-#[ -f $SCRIPT_DIR/data/secrets.json ] || (echo "{}" > $SCRIPT_DIR/data/secrets.json)
+[ -f $SECRETS ] || (echo "{}" > $SECRETS)
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > $SCRIPT_DIR/data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > $SCRIPT_DIR/data/roles.json
 echo "... done"
@@ -69,7 +69,7 @@ if [ $(az devcenter admin devcenter list --resource-group $RESOURCEGROUPNAME --s
 		--parameters \
 			config=@$CONFIGFILE \
 			resolve=$RESOLVE \
-			secrets=$SECRETS \
+			secrets=@$SECRETS \
 			windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
 		--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
 
