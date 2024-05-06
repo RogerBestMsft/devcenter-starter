@@ -76,15 +76,15 @@ jobs:
 
       # Get secrets
       - name: 'Convert secrets'
-        id: ConvertSecrets
-        run: echo "TEST=$(${{ secrets.DEVCENTER_SECRETS }} | base64 --decode)" >> $GITHUB_OUTPUT
+        working-directory: ./devCenter
+        run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode) > secrets.json
 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
-        working-directory: ./devCenter        
+        working-directory: ./devCenter
         env:
           SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
           ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
         #run: echo "${{ env.ENV_JSON }}"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ steps.ConvertSecrets.outputs.TEST }}
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g secrets.json
       
