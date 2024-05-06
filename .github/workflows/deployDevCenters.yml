@@ -78,8 +78,8 @@ jobs:
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter        
         env:
-          SUPER_SECRET: ${{ toJson(vars.DEVCENTER_VARIABLE) }}
+          SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
           ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
         #run: echo "${{ env.ENV_JSON }}"
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g ${{ vars.DEVCENTER_VARIABLE }}
+        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g $(${{ secrets.DEVCENTER_SECRETS }} | base64 --decode)
       
