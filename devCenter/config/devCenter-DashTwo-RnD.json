@@ -2,7 +2,7 @@
 	"$schema": "../../schemas/devCenter.schema.json",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
 	"resourceGroupName": "DevCenter-DashTwo-RnD",
-	"name": "DashTwo-RnD",
+	"name": "DashTwo-RnDA",
 	"zone": "rnd.dash-two.dev",
 	"location": "West Europe",
 	"hubs": {
@@ -53,7 +53,7 @@
 			"name": "Demo-Environments",
 			"type": "GitHub",
 			"uri": "https://github.com/carmada-dev/demo-environments.git",
-			"secretRef": "demoEnvironmentsPAT"
+			"secretRef": "dash2EnvironmentsPAT"
 		}
 	],
 	"environmentTypes": {
