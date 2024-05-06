@@ -77,7 +77,7 @@ jobs:
       # Get secrets
       - name: 'Convert secrets'
         id: ConvertSecrets
-        run: echo "TEST=$(${{ secrets.DEVCENTER_SECRETS }} | base64 --decode)"
+        run: echo "TEST=$(${{ secrets.DEVCENTER_SECRETS }} | base64 --decode)" >> $GITHUB_OUTPUT
 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
