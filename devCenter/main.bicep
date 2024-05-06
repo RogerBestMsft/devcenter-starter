@@ -5,29 +5,25 @@ param config object
 param resolve bool = false
 param windows365PrincipalId string
 
-//@secure()
-param secrets string
+@secure()
+param secrets object
 
-//var  secrets2 = json(secrets)
+module mainResolve 'mainResolve.bicep' = {
+  name: '${take(deployment().name, 36)}-resolve'
+  scope: subscription()
+  params: {
+    config: config
+  }
+}
 
-// module mainResolve 'mainResolve.bicep' = {
-//   name: '${take(deployment().name, 36)}-resolve'
-//   scope: subscription()
-//   params: {
-//     config: config
-//   }
-// }
+module mainProvision 'mainProvision.bicep' = if(!resolve) {
+  name: '${take(deployment().name, 36)}-provision'
+  scope: subscription()
+  params: {
+    config: mainResolve.outputs.config    
+    secrets: secrets
+    windows365PrincipalId: windows365PrincipalId
+  }
+}
 
-// module mainProvision 'mainProvision.bicep' = if(!resolve) {
-//   name: '${take(deployment().name, 36)}-provision'
-//   scope: subscription()
-//   params: {
-//     config: mainResolve.outputs.config    
-//     secrets: secrets2
-//     windows365PrincipalId: windows365PrincipalId
-//   }
-// }
-
-// output config object = mainResolve.outputs.config
-output test string = secrets
-//output test2 object = secrets2
+output config object = mainResolve.outputs.config
