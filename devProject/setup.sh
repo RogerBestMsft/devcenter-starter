@@ -29,6 +29,7 @@ else
 fi
 
 echo "Generating data files ..."; mkdir -p ./data
+echo "X - $SECRETS"
 [ -f $SECRETS ] || (echo "{}" > $SECRETS)
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
@@ -48,7 +49,7 @@ echo "Deploying to $SUBSCRIPTIONID, $PROJECTNAME at $LOCATION"
 echo "... done"
 
 echo "TEST S"
-echo "<$SECRETS"
+echo $SECRETS
 
 echo "Deploying DevProject '$CONFIGFILE' ..."
 az deployment sub create \
