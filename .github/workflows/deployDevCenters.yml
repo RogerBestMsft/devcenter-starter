@@ -148,16 +148,16 @@ jobs:
       # Get secrets
       - name: 'Convert secrets'
         working-directory: ./devProject
-        run: echo ${{ secrets.DEVPROJECT_SECRETS }} | base64 --decode > secrets.json
+        run: echo ${{ secrets.DEVPROJECT_SECRETS }} | base64 --decode > projectsecrets.json
 
       # Test secrets
       - name: 'Test secrets'
         working-directory: ./devProject
-        run: echo "$(<secrets.json)"
+        run: echo "$(<projectsecrets.json)"
 
       # Create DevCenters
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
-        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets.json'
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './projectsecrets.json'
         #run: echo "Project completed."
       
