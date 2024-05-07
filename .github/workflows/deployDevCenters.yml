@@ -86,7 +86,7 @@ jobs:
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets.json'
+        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets.json'
         run: echo "DC completed."
       
   project_configuration_matrix:
@@ -158,6 +158,6 @@ jobs:
       # Create DevCenters
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
-        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets.json'
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets.json'
         #run: echo "Project completed."
       
