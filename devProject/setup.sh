@@ -48,7 +48,7 @@ echo "Deploying to $SUBSCRIPTIONID, $PROJECTNAME at $LOCATION"
 echo "... done"
 
 echo "TEST S"
-echo "$SECRETS"
+echo "<$SECRETS"
 
 echo "Deploying DevProject '$CONFIGFILE' ..."
 az deployment sub create \
