@@ -69,7 +69,13 @@ jobs:
         id: DevCenterName
         working-directory: ./devCenter/config
         run: echo "DEVCENTERNAME=$(jq --raw-output .name ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
-    
+
+      # Get name from configuration file
+      - name: 'Get Secrets Name'
+        id: DCSecrets
+        working-directory: ./devCenter/config
+        run: echo "DC_Secrets=$(jq --raw-output .secrets ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+
       # Connect to cli using openid auth
       - name: 'Az CLI login'
         uses: azure/login@v2
@@ -81,13 +87,18 @@ jobs:
       # Get secrets
       - name: 'Convert secrets'
         working-directory: ./devCenter
-        run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode > secrets.json
+        env:
+          SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
+        run: echo ${{ env.SECRET_NAME }} | base64 --decode > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets.json'
-        run: echo "DC completed."
+        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
+        #run: echo "DC completed."
+        run: echo "<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}"
+      
+      # 
       
   project_configuration_matrix:
     runs-on: ubuntu-latest
@@ -155,9 +166,9 @@ jobs:
         working-directory: ./devProject
         run: echo "$(<projectsecrets.json)"
 
-      # Create DevCenters
+      # Create Projects
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
-        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './projectsecrets.json'
-        #run: echo "Project completed."
+        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './projectsecrets.json'
+        run: echo "Project completed."
       

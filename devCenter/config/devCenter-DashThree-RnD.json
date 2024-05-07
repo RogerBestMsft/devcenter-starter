@@ -4,6 +4,7 @@
 	"name": "DashThree-RnDB",
 	"zone": "rnd.dash-three.dev",
 	"location": "West Europe",
+	"secrets": "DC_DashThree_secrets",
 	"hubs": {
 		"H00" : [
 			{

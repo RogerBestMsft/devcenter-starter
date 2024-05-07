@@ -24,6 +24,10 @@
 			"$ref": "./definitions.schema.json#/$defs/location",
 			"description": "Location of the DevCenter"
 		},
+		"secrets":{
+			"type": "string",
+			"description": "Name of the secrets variable"
+		},
 		"hubs": {
 			"type": "object",
 			"patternProperties":{

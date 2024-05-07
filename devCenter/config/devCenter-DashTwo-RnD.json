@@ -4,6 +4,7 @@
 	"name": "DashTwo-RnDB",
 	"zone": "rnd.dash-two.dev",
 	"location": "West Europe",
+	"secrets": "DC_DashTwo_secrets",
 	"hubs": {
 		"H00" : [
 			{
