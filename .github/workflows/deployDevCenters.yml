@@ -153,6 +153,6 @@ jobs:
       # Create DevCenters
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets.json'
-        run: echo "Project completed."
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets.json'
+        #run: echo "Project completed."
       
