@@ -153,8 +153,8 @@ jobs:
       # Test secrets
       - name: 'Test secrets'
         working-directory: ./devProject
-        run: echo ./secrets.json
-        
+        run: echo "$(<secrets.json)"
+
       # Create DevCenters
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
