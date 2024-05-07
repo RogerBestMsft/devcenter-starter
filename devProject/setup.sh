@@ -30,24 +30,23 @@ else
 	exit $?
 fi
 
-echo "Generating data files ..."; mkdir -p $SCRIPT_DIR/data
+echo "Generating data files ..."; mkdir -p ./data
 [ -f $SECRETS ] || (echo "{}" > $SECRETS)
-az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > $SCRIPT_DIR/data/locations.json
-az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > $SCRIPT_DIR/data/roles.json
+az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
+az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
 echo "... done"
 
 echo "Deleting output files ..."
-rm -f $SCRIPT_DIR/deploy.output.json
+rm -f ./deploy.output.json
 rm -f ${CONFIGFILE%.*}.output.json
 echo "... done"
 
 echo "Checking for DevCenter"
 SUBSCRIPTIONID=$(jq --raw-output .subscription $CONFIGFILE)
 PROJECTNAME=$(jq --raw-output .name $CONFIGFILE)
-RESOURCEGROUPNAME="${$CONFIGFILE%.*}"
 LOCATION=$(jq --raw-output .location $CONFIGFILE)
 
-echo "Deploying to $SUBSCRIPTIONID, in $RESOURCEGROUPNAME, $PROJECTNAME at $LOCATION"
+echo "Deploying to $SUBSCRIPTIONID, $PROJECTNAME at $LOCATION"
 echo "... done"
 
 echo "Deploying DevProject '$CONFIGFILE' ..."
