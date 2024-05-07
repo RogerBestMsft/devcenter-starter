@@ -1,0 +1,71 @@
+{
+	"$schema": "../../schemas/devProject.schema.json",
+	"name": "ProjectA",
+	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
+	"zone": "projectA.rnd.dash-three.dev",
+	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDA/providers/Microsoft.DevCenter/devcenters/DashThree-RnDA",
+	"location": "West Europe",
+	"networks" : {
+		"Default" : [
+			{
+				"hub": "H10",
+				"addressPrefix": "10.0.0.0/26",
+				"location": "West Europe"
+			},
+			{
+				"hub": "H10",
+				"addressPrefix": "10.0.0.64/26",
+				"location": "East US 2"
+			}
+		]
+	},
+	"devBoxPools" : {
+		"VS2022EntBox": {
+			"administrator": false,
+			"definition": "VS2022EntBox",
+			"networks": [
+				{
+					"scope": "DevProject",
+					"name": "Default",
+					"locations": [
+						"West Europe",
+						"East US 2"
+					]
+				},
+				{
+					"scope": "DevCenter",
+					"name": "Shared",
+					"locations": [
+						"West Europe"
+					]
+				}
+			]
+		}
+	},
+	"environmentTypes": {
+		"DEV": {
+			"subscription": "68dc65ce-2b7d-4d3a-82ab-6917a619098d",
+			"creatorRoles": [ "Contributor" ],
+			"userRoles": [ "Contributor" ]
+		},
+		"TEST": {
+			"subscription": "4435d275-9843-4721-b35e-c5975191d31f",
+			"creatorRoles": [ "Contributor" ]
+		},
+		"PROD": {
+			"subscription": "aeb7199e-5f00-4417-83e6-85fdde93ffef"
+		}
+	},
+	"admins" : [
+		{
+			"principalId" : "94bd056c-2134-47a9-845f-a596e960f39b",
+			"principalType": "User"
+		}
+	],
+	"users" : [
+		{
+			"principalId" : "22adab23-8a6b-4346-8c97-858e8ed5bc7f",
+			"principalType": "User"
+		}
+	]
+}

@@ -1,8 +1,7 @@
 {
 	"$schema": "../../schemas/devCenter.schema.json",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
-	"resourceGroupName": "DevCenter-DashThree-RnD",
-	"name": "DashThree-RnDA",
+	"name": "DashThree-RnDB",
 	"zone": "rnd.dash-three.dev",
 	"location": "West Europe",
 	"hubs": {
@@ -24,17 +23,17 @@
 	"networks": {
 		"Shared": [
 			{
-				"hub": "H00",
+				"hub": "H10",
 				"addressPrefix": "10.0.200.0/22",
 				"location": "West Europe"
 			},
 			{
-				"hub": "H00",
+				"hub": "H10",
 				"addressPrefix": "10.0.204.0/22",
 				"location": "East US 2"
 			},
 			{
-				"hub": "H00",
+				"hub": "H10",
 				"addressPrefix": "10.0.208.0/22",
 				"location": "Central India"
 			}

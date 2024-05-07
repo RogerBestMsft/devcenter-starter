@@ -1,8 +1,10 @@
 {
 	"$schema": "../../schemas/devProject.schema.json",
 	"name": "ProjectB",
+	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
 	"zone": "projectb.rnd.dash-two.dev",
-	"devCenterId": "/subscriptions/63a6f618-7571-4923-bd60-ec13c3dc08fa/resourceGroups/DevCenter-DashTwo-RnD/providers/Microsoft.DevCenter/devcenters/DashTwo-RnD",
+	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashTwo-RnDA/providers/Microsoft.DevCenter/devcenters/DashTwo-RnDA",
+	"location": "West Europe",
 	"networks": {
 		"Default": [
 			{

@@ -8,6 +8,10 @@
 		"$schema": {
 			"type": "string"
 		},
+		"subscription": {
+			"type": "string",
+			"description": "Subscription for the DevProject"
+		},
 		"name": {
 			"type": "string",
 			"description": "Name of the DevProject"
@@ -19,6 +23,10 @@
 		"devCenterId": {
 			"$ref": "./definitions.schema.json#/$defs/resourceId",
 			"description": "The related DevCenter resource ID"
+		},
+		"location": {
+			"$ref": "./definitions.schema.json#/$defs/location",
+			"description": "Location of the DevCenter"
 		},
 		"networks": {
 			"type": "object",

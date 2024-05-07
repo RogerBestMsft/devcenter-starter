@@ -21,17 +21,17 @@ permissions:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build_configuration_matrix:
+  devcenter_configuration_matrix:
     runs-on: ubuntu-latest
 
     outputs:
-      matrix: ${{ steps.configuration-matrix.outputs.matrix }}
-    steps:
+      matrix: ${{ steps.dc-configuration-matrix.outputs.matrix }}
 
+    steps:
       - uses: actions/checkout@v3
 
-      - name: set-configuration_matrix
-        id: configuration-matrix
+      - name: set-dc-configuration-matrix
+        id: dc-configuration-matrix
         working-directory: ./devCenter/config
         run: echo "matrix=$(ls | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
 
@@ -39,11 +39,11 @@ jobs:
     # Matrix of subscriptions
     strategy:
       matrix:
-        configurations: ${{ fromJson(needs.build_configuration_matrix.outputs.matrix) }}
+        configurations: ${{ fromJson(needs.devcenter_configuration_matrix.outputs.matrix) }}
 
         # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    needs: build_configuration_matrix
+    needs: devcenter_configuration_matrix
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -53,6 +53,10 @@ jobs:
       # Install dos2unix
       - name: Install Dos2Unix
         run: sudo apt-get install dos2unix
+
+      # Install az cli devcenter extension
+      - name: Install DevCenter cli extension
+        run: az extension add --name devcenter --allow-preview true
 
       # Get subscription from configuration file
       - name: 'Get Subscription Id'
@@ -79,16 +83,75 @@ jobs:
         working-directory: ./devCenter
         run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode > secrets.json
 
-      # Get secrets
-      # - name: 'show secrets'
-      #   working-directory: ./devCenter
-      #   run: echo ${{ secrets.DEVCENTER_SECRETS }} | base64 --decode 
-
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
-        env:
-          SUPER_SECRET: ${{ secrets.DEVCENTER_SECRETS }}
-          ENV_JSON: ${{ vars.DEVCENTER_VARIABLE }}
-        run: bash setup.sh -s ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }} -c './config/${{ matrix.configurations }}' -g 'secrets.json'
+        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets.json'
+        run: echo "DC completed."
+      
+  project_configuration_matrix:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.prj-configuration-matrix.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: set-prj-configuration-matrix
+        id: prj-configuration-matrix
+        working-directory: ./devProject/config
+        run: echo "matrix=$(ls | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+
+  build_projects:
+    # Matrix of subscriptions
+    strategy:
+      matrix:
+        configurations: ${{ fromJson(needs.project_configuration_matrix.outputs.matrix) }}
+
+        # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: project_configuration_matrix
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Get subscription from configuration file
+      - name: 'Get Subscription Id'
+        id: SubscriptionId
+        working-directory: ./devProject/config
+        run: echo "SUBSCRIPTIONID=$(jq --raw-output .subscription ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+
+        # Get subscription from configuration file
+      - name: 'Get Name'
+        id: ProjectName
+        working-directory: ./devProject/config
+        run: echo "PROJECTNAME=$(jq --raw-output .name ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+
+      # Get resource id from configuration file
+      - name: 'Get DevCenter Resource Id'
+        id: DevCenterId
+        working-directory: ./devProject/config
+        run: echo "DEVCENTERID=$(jq --raw-output .devcenterid ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+    
+      # Connect to cli using openid auth
+      - name: 'Az CLI login'
+        uses: azure/login@v2
+        with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
+
+      # Get secrets
+      - name: 'Convert secrets'
+        working-directory: ./devProject
+        run: echo ${{ secrets.PROJECT_SECRETS }} | base64 --decode > secrets.json
+
+      # Create DevCenters
+      - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
+        working-directory: ./devProject
+        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets.json'
+        run: echo "Project completed."
       
