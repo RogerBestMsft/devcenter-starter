@@ -150,6 +150,11 @@ jobs:
         working-directory: ./devProject
         run: echo ${{ secrets.DEVPROJECT_SECRETS }} | base64 --decode > secrets.json
 
+      # Test secrets
+      - name: 'Test secrets'
+        working-directory: ./devProject
+        run: echo ./secrets.json
+        
       # Create DevCenters
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject

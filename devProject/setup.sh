@@ -9,8 +9,6 @@ usage() {
 	exit 1; 
 }
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
 while getopts 'c:s' OPT; do
     case "$OPT" in
 		c)
