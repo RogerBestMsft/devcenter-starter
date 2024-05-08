@@ -29,6 +29,8 @@ echo "done..."
 
 echo "Generating data files ..."; mkdir -p ./data
 [ -f $SECRETS ] || (echo "{}" > $SECRETS)
+echo "$(<$SECRETS )"
+
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
