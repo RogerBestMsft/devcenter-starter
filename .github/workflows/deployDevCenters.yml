@@ -98,8 +98,6 @@ jobs:
         #run: echo "DC completed."
         run: echo "<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}"
       
-      # 
-      
   project_configuration_matrix:
     runs-on: ubuntu-latest
     needs: build_devcenters
