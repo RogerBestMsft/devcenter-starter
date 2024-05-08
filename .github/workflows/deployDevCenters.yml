@@ -96,11 +96,12 @@ jobs:
         working-directory: ./devCenter
         #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
         run: ls
-
+        #run: $([ -f $SECRETS ] || (echo "{}" > $SECRETS))
+        
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
-        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'echo $(secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json)'
         #run: echo "DC completed."
         #run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"
       
