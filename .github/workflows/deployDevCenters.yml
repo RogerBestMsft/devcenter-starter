@@ -99,9 +99,9 @@ jobs:
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
         #run: echo "DC completed."
-        run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"
+        #run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"
       
   project_configuration_matrix:
     runs-on: ubuntu-latest
@@ -162,16 +162,16 @@ jobs:
       # Get secrets
       - name: 'Convert secrets'
         working-directory: ./devProject
-        run: echo ${{ secrets.DEVPROJECT_SECRETS }} | base64 --decode > projectsecrets.json
+        run: echo ${{ secrets.DEVPROJECT_SECRETS }} | base64 --decode > projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json
 
       # Test secrets
       - name: 'Test secrets'
         working-directory: ./devProject
-        run: echo "$(<projectsecrets.json)"
+        run: echo "$(<projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json)"
 
       # Create Projects
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './projectsecrets.json'
-        run: echo "Project completed."
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s 'projectsecrets__${{ steps.ProjectName.outputs.PROJECTNAME }}.json'
+        #run: echo "Project completed."
       
