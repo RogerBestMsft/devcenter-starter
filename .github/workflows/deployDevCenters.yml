@@ -89,7 +89,7 @@ jobs:
         working-directory: ./devCenter
         env:
           SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
-        run: echo ${{ env.SECRET_NAME }} | base64 --decode > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
+        run: echo ${{ env.SECRET_NAME }} | base64 --decode | toJson > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
 
       # Debug
       - name: 'test'
@@ -108,11 +108,12 @@ jobs:
         # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
-        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s "secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json"
+        run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
+
         #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s '$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )'
         #run: echo "DC completed."
         #run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"
-      
+            
   project_configuration_matrix:
     runs-on: ubuntu-latest
     needs: build_devcenters
