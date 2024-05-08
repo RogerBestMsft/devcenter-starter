@@ -5,7 +5,7 @@ usage() {
 	echo "Usage: $0"
 	echo "======================================================================================"
 	echo " -c [REQUIRED] 	Config file"
-	echo " -s [REQUIRED]	Secrets"
+	echo " -s [REQUIRED]	SECRETSFILE"
 	exit 1; 
 }
 
