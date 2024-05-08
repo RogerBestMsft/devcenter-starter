@@ -20,21 +20,8 @@ while getopts 'c:s' OPT; do
     esac
 done
 
-echo "Test.."
-echo $SECRETSFILE
-echo "$(<$SECRETSFILE )"
-TEST=$(jq $SECRETSFILE)
-echo "$(<$TEST )"
-echo "done..."
-
 echo "Generating data files ..."; mkdir -p ./data
 [ -f $SECRETSFILE ] || (echo "{}" > $SECRETSFILE)
-
-echo "Test2.."
-echo $SECRETSFILE
-echo "$(<$SECRETSFILE )"
-echo "done..."
-
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
