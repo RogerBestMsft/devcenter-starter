@@ -23,6 +23,8 @@ done
 echo "Test.."
 echo $SECRETSFILE
 echo "$(<$SECRETSFILE )"
+TEST=$(jq $SECRETSFILE)
+echo "$(<$TEST )"
 echo "done..."
 
 echo "Generating data files ..."; mkdir -p ./data
