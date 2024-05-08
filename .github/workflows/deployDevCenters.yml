@@ -95,10 +95,17 @@ jobs:
       - name: 'test'
         working-directory: ./devCenter
         #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-        run: ls
-        #run: $([ -f $SECRETS ] || (echo "{}" > $SECRETS))
-        
-      # Create DevCenters
+        #run: ls
+        run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"
+
+      # Debug
+      - name: 'test2'
+        working-directory: ./devCenter
+        #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
+        #run: ls
+        run: echo "$(./config/${{ matrix.configurations }})"
+
+        # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json)'
