@@ -89,7 +89,7 @@ jobs:
         working-directory: ./devCenter
         env:
           SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
-        run: echo ${{ env.SECRET_NAME }} | base64 --decode | toJson > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
+        run: echo ${{ env.SECRET_NAME }} | base64 --decode | toJson() > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
 
       # Debug
       - name: 'test'
