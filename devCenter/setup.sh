@@ -14,22 +14,24 @@ while getopts 'c:s' OPT; do
 		c)
 			CONFIGFILE="${OPTARG}" ;;
 		s)
-			SECRETS="${OPTARG}" ;;
+			SECRETSFILE="${OPTARG}" ;;
 		*) 
 			usage ;;
     esac
 done
 
 echo "Test.."
-echo $CONFIGFILE
-echo $SECRETS
-echo "$(<$CONFIGFILE )"
-echo "$(<$SECRETS )"
+echo $SECRETSFILE
+echo "$(<$SECRETSFILE )"
 echo "done..."
 
 echo "Generating data files ..."; mkdir -p ./data
-[ -f $SECRETS ] || (echo "{}" > $SECRETS)
-echo "$(<$SECRETS )"
+[ -f $SECRETSFILE ] || (echo "{}" > $SECRETSFILE)
+
+echo "Test2.."
+echo $SECRETSFILE
+echo "$(<$SECRETSFILE )"
+echo "done..."
 
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
@@ -56,6 +58,6 @@ az deployment sub create \
 	--parameters \
 		config=@$CONFIGFILE \
 		resolve=$RESOLVE \
-		secrets=@$SECRETS \
+		secrets=@$SECRETSFILE \
 		windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
 	--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
