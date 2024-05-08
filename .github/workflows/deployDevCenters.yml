@@ -95,7 +95,7 @@ jobs:
       - name: 'test'
         working-directory: ./devCenter
         #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-        run: ll
+        run: ls
 
       # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
