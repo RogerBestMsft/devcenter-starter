@@ -26,7 +26,7 @@ echo "Check SecretsFile"
 #[ -f $SECRETSFILE ] || (echo "{}" > $SECRETSFILE)
 echo "x $1"
 echo "y $2"
-XXX=$(echo $2 | base64 --decode)
+XXX=$(echo $2 | base64 --decode | dos2unix)
 echo "z $XXX"
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
@@ -51,7 +51,7 @@ az deployment sub create \
 	--template-file ./main.bicep \
 	--only-show-errors \
 	--parameters \
-		config=@$CONFIGFILE \
+		config=@$1 \
 		resolve=$RESOLVE \
 		secrets=$XXX \
 		windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
