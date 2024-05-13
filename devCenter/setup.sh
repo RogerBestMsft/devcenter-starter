@@ -29,7 +29,7 @@ echo "y $2"
 XXX=$(echo $2 | base64 --decode | dos2unix)
 echo "z $XXX"
 
-AAA=$(jq --raw-output $SECRETSFILE)
+AAA=$(jq $2)
 echo "aa $AAA"
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
