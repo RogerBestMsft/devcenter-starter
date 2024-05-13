@@ -29,6 +29,9 @@ echo "y $2"
 XXX=$(echo $2 | base64 --decode | dos2unix)
 echo "z $XXX"
 
+AAA=$(jq --raw-output $SECRETSFILE)
+echo "aa $AAA"
+
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
 echo "... done"
