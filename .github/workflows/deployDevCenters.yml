@@ -97,7 +97,7 @@ jobs:
         working-directory: ./devCenter
         env:
           SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
-        run: echo "DC_TEST=$(cat ${{ env.SECRET_FILE }})" >> $GITHUB_OUTPUT
+        run: echo "DC_TEST=$(cat ${{ env.SECRET_FILE }})"
         #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
         #run: ls
         #run: cat ${{ env.SECRET_FILE}}
