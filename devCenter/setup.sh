@@ -26,7 +26,7 @@ echo "Check SecretsFile"
 #[ -f $SECRETSFILE ] || (echo "{}" > $SECRETSFILE)
 echo "x $1"
 echo "y $2"
-XXX = echo $2 | base64 --decode 
+XXX=$(echo $2 | base64 --decode)
 echo "z $XXX"
 
 
