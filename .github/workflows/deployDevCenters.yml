@@ -113,7 +113,7 @@ jobs:
         working-directory: ./devCenter
         env:
           SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
-        run: echo "${{ toJson(env.SECRET_FILE)}}"
+        run: cat ${{ env.SECRET_FILE }}
         #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s ${{ toJson(env.TEST)}}
         #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s '$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )'
         #run: echo "DC completed."
