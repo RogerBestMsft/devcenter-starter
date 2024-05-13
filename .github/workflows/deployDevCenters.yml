@@ -89,14 +89,17 @@ jobs:
         working-directory: ./devCenter
         env:
           SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
-        run: echo ${{ env.SECRET_NAME }} | base64 --decode > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
+        run: echo ${{ env.SECRET_NAME }} | base64 --decode > secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
 
-      # # Debug
-      # - name: 'test'
-      #   working-directory: ./devCenter
-      #   #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-      #   #run: ls
-      #   run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"        
+      # Debug
+      - name: 'test'
+        working-directory: ./devCenter
+        env:
+          SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
+
+        #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
+        #run: ls
+        run: cat ${{ env.SECRET_FILE}}
 
       # # Debug
       # - name: 'test2'
@@ -109,7 +112,7 @@ jobs:
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         env:
-          SECRET_FILE: './secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
+          SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
         run: bash setup.sh -c './config/${{ matrix.configurations }}' -s ${{ env.SECRET_FILE}}
 
         #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s '$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )'
