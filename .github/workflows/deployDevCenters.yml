@@ -83,7 +83,7 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ steps.SubscriptionId.outputs.SUBSCRIPTIONID }}
-
+  
       # Get secrets
       - name: 'Convert secrets'
         working-directory: ./devCenter
@@ -91,19 +91,19 @@ jobs:
           SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
         run: echo ${{ env.SECRET_NAME }} | base64 --decode > secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
 
-      # Debug
-      - name: 'test'
-        working-directory: ./devCenter
-        #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-        #run: ls
-        run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"        
+      # # Debug
+      # - name: 'test'
+      #   working-directory: ./devCenter
+      #   #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
+      #   #run: ls
+      #   run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"        
 
-      # Debug
-      - name: 'test2'
-        working-directory: ./devCenter
-        #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-        run: ls
-        #run: echo "$(./config/${{ matrix.configurations }})"
+      # # Debug
+      # - name: 'test2'
+      #   working-directory: ./devCenter
+      #   #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
+      #   run: ls
+      #   #run: echo "$(./config/${{ matrix.configurations }})"
 
         # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
