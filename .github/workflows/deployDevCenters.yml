@@ -113,9 +113,10 @@ jobs:
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         env:
+          TEST: $(echo ${{ env.SECRET_NAME }} | base64 --decode)
           SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
           SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
-        run: bash setup.sh './config/${{ matrix.configurations }}' $(cat ${{ env.SECRET_FILE }})
+        run: bash setup.sh './config/${{ matrix.configurations }}' ${{ toJson( env.TEST ) }}
         #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s ${{ steps.test.outputs.DC_TEST }}
         #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s $(cat ${{ env.SECRET_FILE }})
         #run: cat ${{ env.SECRET_FILE }}
