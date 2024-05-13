@@ -24,10 +24,8 @@ echo "Generating data files ..."; mkdir -p ./data
 
 echo "Check SecretsFile" 
 #[ -f $SECRETSFILE ] || (echo "{}" > $SECRETSFILE)
-echo "x $SECRETSFILE"
-
-TEST=$(jq --raw-output $SECRETSFILE)
-echo "y $TEST"
+echo "x $1"
+echo "y $2"
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
