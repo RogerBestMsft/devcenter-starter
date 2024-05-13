@@ -29,7 +29,7 @@ echo "y $2"
 XXX=$(echo $2 | base64 --decode | dos2unix)
 echo "z $XXX"
 
-AAA=$(jq $2)
+AAA=$(jq --raw-output $2)
 echo "aa $AAA"
 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
@@ -56,6 +56,6 @@ az deployment sub create \
 	--parameters \
 		config=@$1 \
 		resolve=$RESOLVE \
-		secrets=$XXX \
+		secrets=@$(echo $2) \
 		windows365PrincipalId=$(az ad sp show --id 0af06dc6-e4b5-4f28-818e-e78e62d137a5 --query id --output tsv | dos2unix) \
 	--query properties.outputs > ${CONFIGFILE%.*}.output.json && echo "... done"
