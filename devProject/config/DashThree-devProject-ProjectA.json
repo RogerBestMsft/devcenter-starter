@@ -3,17 +3,17 @@
 	"name": "ProjectA",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
 	"zone": "projectA.rnd.dash-three.dev",
-	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDA/providers/Microsoft.DevCenter/devcenters/DashThree-RnDA",
+	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDD/providers/Microsoft.DevCenter/devcenters/DashThree-RnDD",
 	"location": "West Europe",
 	"networks" : {
 		"Default" : [
 			{
-				"hub": "H10",
+				"hub": "H00",
 				"addressPrefix": "10.0.0.0/26",
 				"location": "West Europe"
 			},
 			{
-				"hub": "H10",
+				"hub": "H00",
 				"addressPrefix": "10.0.0.64/26",
 				"location": "East US 2"
 			}

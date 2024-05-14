@@ -3,7 +3,7 @@
 	"name": "ProjectA",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
 	"zone": "projectA.rnd.dash-two.dev",
-	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashTwo-RnDA/providers/Microsoft.DevCenter/devcenters/DashTwo-RnDA",
+	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashTwo-RnDD/providers/Microsoft.DevCenter/devcenters/DashTwo-RnDD",
 	"location": "West Europe",
 	"networks" : {
 		"Default" : [

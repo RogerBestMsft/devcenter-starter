@@ -1,36 +1,17 @@
 #!/bin/bash
 
-# usage() { 
-# 	echo "======================================================================================"
-# 	echo "Usage: $0"
-# 	echo "======================================================================================"
-# 	echo " -c [REQUIRED] 	Config file"
-# 	echo " -s [REQUIRED]	SECRETSFILE"
-# 	exit 1; 
-# }
+echo "Validating config '$1' ..."
+if (cat $1 | jq -e . >/dev/null 2>&1); then
+	echo "... done"
+else
+	echo "Config file $1 invalid !!!"
+	exit $?
+fi
 
-# while getopts 'c:s' OPT; do
-#     case "$OPT" in
-# 		c)
-# 			CONFIGFILE="${OPTARG}" ;;
-# 		s)
-# 			SECRETSFILE="${OPTARG}" ;;
-# 		*) 
-# 			usage ;;
-#     esac
-# done
 
 echo "Generating data files ..."; mkdir -p ./data
 
-echo "Check SecretsFile" 
-#[ -f $SECRETSFILE ] || (echo "{}" > $SECRETSFILE)
-#echo "x $1"
-#echo "y $2"
-#XXX=$(echo $2 | base64 --decode | dos2unix)
-#echo "z $XXX"
-#AAA=$(jq --raw-output $2)
-#echo "aa $AAA"
-
+echo "Generate support files." 
 az account list-locations --query '[].{key: name, value: displayName}' | jq 'map( { (.key): .value }) | add' > ./data/locations.json
 az role definition list --query '[].{ key: roleName, value: name}' | jq 'map( { (.key | gsub("\\s+";"") | ascii_downcase): .value }) | add' > ./data/roles.json
 echo "... done"

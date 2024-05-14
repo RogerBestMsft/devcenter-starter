@@ -91,40 +91,12 @@ jobs:
           SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
         run: echo ${{ env.SECRET_NAME }} | base64 --decode > secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json
 
-      # Debug
-      - name: 'test'
-        id: test
-        working-directory: ./devCenter
-        env:
-          SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
-        run: echo "DC_TEST=$(cat ${{ env.SECRET_FILE }})"
-        #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-        #run: ls
-        #run: cat ${{ env.SECRET_FILE}}
-
-      # # Debug
-      # - name: 'test2'
-      #   working-directory: ./devCenter
-      #   #run: cat ./secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}
-      #   run: ls
-      #   #run: echo "$(./config/${{ matrix.configurations }})"
-
         # Create DevCenters
       - name: 'Create DevCenters ${{ steps.DevCenterName.outputs.DEVCENTERNAME }} '
         working-directory: ./devCenter
         env:
-          #TEST: $(echo ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }} | base64 --decode)
-          #SECRET_NAME: ${{ secrets[steps.DCSecrets.outputs.DC_Secrets] }}
           SECRET_FILE: './secrets-${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json'
-        #run: echo ${{ toJson(env.TEST) }}
         run: bash setup.sh './config/${{ matrix.configurations }}' '${{ env.SECRET_FILE }}'
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s ${{ steps.test.outputs.DC_TEST }}
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s $(cat ${{ env.SECRET_FILE }})
-        #run: cat ${{ env.SECRET_FILE }}
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s ${{ toJson(env.TEST)}}
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s '$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )'
-        #run: echo "DC completed."
-        #run: echo "$(<secrets_${{ steps.DevCenterName.outputs.DEVCENTERNAME }}.json )"
             
   project_configuration_matrix:
     runs-on: ubuntu-latest
@@ -195,6 +167,6 @@ jobs:
       # Create Projects
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
-        #run: bash setup.sh -c './config/${{ matrix.configurations }}' -s './projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json'
-        run: echo "Project completed."
-      
+        env:
+          SECRET_FILE: './secrets-${{ steps.ProjectName.outputs.PROJECTNAME }}.json'
+        run: bash setup.sh './config/${{ matrix.configurations }}' '${{ env.SECRET_FILE }}'
