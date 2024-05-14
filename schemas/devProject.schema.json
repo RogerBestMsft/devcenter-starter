@@ -28,6 +28,10 @@
 			"$ref": "./definitions.schema.json#/$defs/location",
 			"description": "Location of the DevCenter"
 		},
+		"secrets": {
+			"type": "string",
+			"description": "Name of Github secrets."
+		},
 		"networks": {
 			"type": "object",
 			"patternProperties": {

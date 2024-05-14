@@ -145,7 +145,13 @@ jobs:
         id: DevCenterId
         working-directory: ./devProject/config
         run: echo "DEVCENTERID=$(jq --raw-output .devcenterid ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
-    
+        
+      # Get name from configuration file
+      - name: 'Get Secrets Name'
+        id: PrjSecrets
+        working-directory: ./devProject/config
+        run: echo "PRJ_Secrets=$(jq --raw-output .secrets ${{ matrix.configurations }})" >> $GITHUB_OUTPUT
+
       # Connect to cli using openid auth
       - name: 'Az CLI login'
         uses: azure/login@v2
