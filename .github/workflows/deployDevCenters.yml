@@ -174,5 +174,5 @@ jobs:
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject
         env:
-          SECRET_FILE: './secrets-${{ steps.ProjectName.outputs.PROJECTNAME }}.json'
+          SECRET_FILE: './projectsecrets-${{ steps.ProjectName.outputs.PROJECTNAME }}.json'
         run: bash setup.sh './config/${{ matrix.configurations }}' '${{ env.SECRET_FILE }}'
