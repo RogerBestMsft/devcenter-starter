@@ -166,12 +166,7 @@ jobs:
         env:
           SECRET_NAME: ${{ secrets[steps.PrjSecrets.outputs.PRJ_Secrets] }}
         run: echo ${{ env.SECRET_NAME }} | base64 --decode > projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json
-
-      # Test secrets
-      - name: 'Test secrets'
-        working-directory: ./devProject
-        run: echo "$(<projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json)"
-
+   
       # Create Projects
       - name: 'Create Project ${{ steps.ProjectName.outputs.PROJECTNAME }} '
         working-directory: ./devProject

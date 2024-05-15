@@ -3,7 +3,7 @@
 	"name": "ProjectA",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
 	"zone": "projectA.rnd.dash-three.dev",
-	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDD/providers/Microsoft.DevCenter/devcenters/DashThree-RnDD",
+	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDE/providers/Microsoft.DevCenter/devcenters/DashThree-RnDE",
 	"location": "West Europe",
 	"secrets": "DC_DashThree_ProjectA_secrets",
 	"networks" : {
