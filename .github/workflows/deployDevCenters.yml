@@ -163,7 +163,9 @@ jobs:
       # Get secrets
       - name: 'Convert secrets'
         working-directory: ./devProject
-        run: echo ${{ secrets.DEVPROJECT_SECRETS }} | base64 --decode > projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json
+        env:
+          SECRET_NAME: ${{ secrets[steps.PrjSecrets.outputs.PRJ_Secrets] }}
+        run: echo ${{ env.SECRET_NAME }} | base64 --decode > projectsecrets_${{ steps.ProjectName.outputs.PROJECTNAME }}.json
 
       # Test secrets
       - name: 'Test secrets'
