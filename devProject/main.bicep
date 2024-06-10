@@ -20,7 +20,7 @@ module mainProvision 'mainProvision.bicep' = if (!resolve) {
   scope: subscription()
   params: {
     config: mainResolve.outputs.config
-    secrets: secrets
+//    secrets: secrets
   }
 }
 

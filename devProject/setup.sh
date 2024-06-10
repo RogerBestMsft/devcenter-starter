@@ -36,5 +36,4 @@ az deployment sub create \
     --parameters \
         config=@$1 \
         resolve=$RESOLVE \
-        secrets=@$(echo $2) \
     --query properties.outputs > ${1%.*}.output.json && echo "... done"
