@@ -4,8 +4,8 @@ targetScope = 'subscription'
 param config object
 param resolve bool = false
 
-@secure()
-param secrets object
+//@secure()
+//param secrets object
 
 module mainResolve 'mainResolve.bicep' = {
   name: '${take(deployment().name, 36)}-mainResolve'
