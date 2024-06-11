@@ -1,21 +1,21 @@
 {
 	"$schema": "../../schemas/devProject.schema.json",
-	"name": "ProjectA",
+	"name": "ProjectA3",
 	"subscription": "572b41e6-5c44-486a-84d2-01d6202774ac",
 	"zone": "projectA.rnd.dash-three.dev",
-	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDH/providers/Microsoft.DevCenter/devcenters/DashThree-RnDH",
+	"devCenterId": "/subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DevCenter-DashThree-RnDI/providers/Microsoft.DevCenter/devcenters/DashThree-RnDI",
 	"location": "West Europe",
 	"secrets": "DC_DashThree_ProjectA_secrets",
 	"networks" : {
 		"Default" : [
 			{
 				"hub": "H00",
-				"addressPrefix": "10.0.0.0/26",
+				"addressPrefix": "11.0.0.0/26",
 				"location": "West Europe"
 			},
 			{
 				"hub": "H00",
-				"addressPrefix": "10.0.0.64/26",
+				"addressPrefix": "11.0.0.64/26",
 				"location": "East US 2"
 			}
 		]
